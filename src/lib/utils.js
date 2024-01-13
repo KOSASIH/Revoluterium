@@ -14,7 +14,7 @@ const shortAddress = (address, length = 4) => address.substring(0, length)
 const shortHash = (hash, length = 10) => truncate(hash, { length })
 
 const isDefInt = (obj, key) => {
-  if (!obj || !key || obj.hasOwnProperty(key) === false) return false
+  if (!obj || !key || Object.prototype.hasOwnProperty.call(obj, key) === false) return false
   return Number.isInteger(Number(obj[key]))
 }
 
