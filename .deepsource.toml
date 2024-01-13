@@ -40,7 +40,7 @@ name = "python"
 name = "php"
 
   [analyzers.meta]
-  bootstrap_files = ["claims"]
+
 
 [[analyzers]]
 name = "kotlin"
@@ -55,21 +55,13 @@ name = "javascript"
   [analyzers.meta]
   plugins = [
     "react",
-    "ember",
-    "angularjs",
-    "vue",
-    "meteor",
+
     "angular"
   ]
   environment = [
     "nodejs",
     "browser",
-    "mocha",
-    "jest",
-    "jasmine",
-    "jquery",
-    "cypress",
-    "mongo",
+
     "vitest"
   ]
 
@@ -89,7 +81,7 @@ name = "go"
 name = "docker"
 
   [analyzers.meta]
-  dockerfile_paths = ["src"]
+
 
 [[analyzers]]
 name = "cxx"
@@ -107,52 +99,5 @@ name = "dotnet-format"
 name = "clang-format"
 
 [[transformers]]
-name = "php-cs-fixer"
 
-[[transformers]]
-name = "autopep8"
 
-[[transformers]]
-name = "yapf"
-
-[[transformers]]
-name = "isort"
-
-[[transformers]]
-name = "black"
-
-[[transformers]]
-name = "ruff"
-
-[[transformers]]
-name = "rubocop"
-
-[[transformers]]
-name = "standardrb"
-
-[[transformers]]
-name = "ktlint"
-
-[[transformers]]
-name = "prettier"
-
-[[transformers]]
-name = "standardjs"
-
-[[transformers]]
-name = "google-java-format"
-
-[[transformers]]
-name = "gofmt"
-
-[[transformers]]
-name = "gofumpt"
-
-[[transformers]]
-name = "rustfmt"
-
-[[transformers]]
-name = "scalafmt"
-
-[[transformers]]
-name = "swift-format"
