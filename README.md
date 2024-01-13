@@ -1,3 +1,4 @@
+[![DeepSource](https://app.deepsource.com/gh/KOSASIH/pi-explorer.svg/?label=code+coverage&show_trend=true&token=qid6Xz9cQy9Kqjd1-6LoapUb)](https://app.deepsource.com/gh/KOSASIH/pi-explorer/)
 [![Codacy Security Scan](https://github.com/KOSASIH/pi-explorer/actions/workflows/codacy.yml/badge.svg)](https://github.com/KOSASIH/pi-explorer/actions/workflows/codacy.yml)
 [![Jekyll site CI](https://github.com/KOSASIH/pi-explorer/actions/workflows/jekyll-docker.yml/badge.svg)](https://github.com/KOSASIH/pi-explorer/actions/workflows/jekyll-docker.yml)
 [![Mark stale issues and pull requests](https://github.com/KOSASIH/pi-explorer/actions/workflows/stale.yml/badge.svg)](https://github.com/KOSASIH/pi-explorer/actions/workflows/stale.yml)
