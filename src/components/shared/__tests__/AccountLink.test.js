@@ -1,11 +1,11 @@
 import React from 'react'
-import {configure, shallow} from 'enzyme'
+import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import knownAccounts from '../../../data/known_accounts'
-import AccountLink, {BaseAccountLink} from '../AccountLink'
+import AccountLink, { BaseAccountLink } from '../AccountLink'
 
-configure({adapter: new Adapter()})
+configure({ adapter: new Adapter() })
 
 const ACC_KNOWN = Object.keys(knownAccounts).find(
   (key) => knownAccounts[key].displayName === 'NaoBTC'

@@ -9,7 +9,6 @@ A block explorer for the [Pi Blockchain](https://minepi.com) based on Chris Hatc
 
 To use it, visit the Pi App [pi://blockchain.pi](pi://blockchain.pi) on the [Pi Browser](https://developers.minepi.com) or visit https://minepi.com/blockexplorer
 
-
 ## Exploring Private / Local Development Networks<a name="private-networks"></a>
 
 It connects to a local horizon instance at http://localhost:8000 by default. If you are running a local private network for development this is quite handy for browsing your changes to the ledger.
@@ -53,4 +52,3 @@ Translation files are here:
 https://github.com/pi-apps/pi-explorer/tree/master/src/languages
 
 Submit pull requests with new languages or languages fixes if you like.
-

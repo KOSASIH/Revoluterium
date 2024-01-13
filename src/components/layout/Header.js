@@ -4,29 +4,29 @@ import Navbar from 'react-bootstrap/lib/Navbar'
 // import NavDropdown from 'react-bootstrap/lib/NavDropdown'
 import NavItem from 'react-bootstrap/lib/NavItem'
 // import MenuItem from 'react-bootstrap/lib/MenuItem'
-import {Link} from 'react-router-dom'
-import {LinkContainer} from 'react-router-bootstrap'
-import {FormattedMessage, injectIntl} from 'react-intl'
+import { Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap'
+import { FormattedMessage, injectIntl } from 'react-intl'
 
 import LanguageSelector from './LanguageSelector'
 import NetworkSelector from './NetworkSelector'
 import logoImg from '../../img/logo.svg'
 
 class Header extends React.Component {
-  render() {
-    const {formatMessage} = this.props.intl
+  render () {
+    const { formatMessage } = this.props.intl
     return (
       <Navbar fluid fixedTop collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">
+            <Link to='/'>
               <img
                 src={logoImg}
-                className="App-logo"
-                alt={formatMessage({id: 'logo'})}
+                className='App-logo'
+                alt={formatMessage({ id: 'logo' })}
               />
-              <span className="pi-text"> Pi </span>
-              <span className="brand-text">blockexplorer</span>
+              <span className='pi-text'> Pi </span>
+              <span className='brand-text'>blockexplorer</span>
             </Link>
           </Navbar.Brand>
           <Navbar.Toggle />
@@ -55,19 +55,19 @@ class Header extends React.Component {
                 <FormattedMessage id="operations" />
               </NavItem>
             </LinkContainer> */}
-            <LinkContainer to="/payments">
-                <NavItem>
-                  <FormattedMessage id="payments" />
-                </NavItem>
-              </LinkContainer>
-            <LinkContainer to="/txs">
+            <LinkContainer to='/payments'>
               <NavItem>
-                <FormattedMessage id="transactions" />
+                <FormattedMessage id='payments' />
               </NavItem>
             </LinkContainer>
-            <LinkContainer to="/blocks">
+            <LinkContainer to='/txs'>
               <NavItem>
-                <FormattedMessage id="ledgers" />
+                <FormattedMessage id='transactions' />
+              </NavItem>
+            </LinkContainer>
+            <LinkContainer to='/blocks'>
+              <NavItem>
+                <FormattedMessage id='ledgers' />
               </NavItem>
             </LinkContainer>
 

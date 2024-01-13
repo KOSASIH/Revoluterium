@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Link} from 'react-router-dom'
-import {shortHash} from '../../lib/utils'
+import { Link } from 'react-router-dom'
+import { shortHash } from '../../lib/utils'
 
-const TransactionHash = ({hash, compact = true}) => {
+const TransactionHash = ({ hash, compact = true }) => {
   const hashLabel = compact ? shortHash(hash) : hash
   const className = !compact ? 'monospace' : ''
   return (
@@ -14,7 +14,7 @@ const TransactionHash = ({hash, compact = true}) => {
 }
 TransactionHash.propTypes = {
   hash: PropTypes.string.isRequired,
-  compact: PropTypes.bool,
+  compact: PropTypes.bool
 }
 
 export default TransactionHash

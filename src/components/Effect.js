@@ -1,6 +1,6 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import truncate from 'lodash/truncate'
 
 import Offer from './operations/Offer'
@@ -11,15 +11,15 @@ import JSONButton from './shared/JSONButton'
 import TimeSynchronisedFormattedRelative from './shared/TimeSynchronizedFormattedRelative'
 import TransactionHash from './shared/TransactionHash'
 
-import {base64Decode} from '../lib/utils'
+import { base64Decode } from '../lib/utils'
 
-const AccountCreated = ({account, startingBalance}) => (
+const AccountCreated = ({ account, startingBalance }) => (
   <span>
-    <FormattedMessage id="account" />
+    <FormattedMessage id='account' />
     {': '}
     <AccountLink account={account} />
     {'; '}
-    <FormattedMessage id="balance" />
+    <FormattedMessage id='balance' />
     {': '}
     <FormattedAmount amount={startingBalance} />
   </span>
@@ -27,10 +27,10 @@ const AccountCreated = ({account, startingBalance}) => (
 
 const AccountFlagsUpdated = ({
   authRequiredFlag = null,
-  authRevocableFlag = null,
+  authRevocableFlag = null
 }) => (
   <span>
-    <FormattedMessage id="flags" />
+    <FormattedMessage id='flags' />
     {': '}
     {authRequiredFlag != null && (
       <span>auth_required_flag={String(authRequiredFlag)}; </span>
@@ -41,19 +41,19 @@ const AccountFlagsUpdated = ({
   </span>
 )
 
-const AccountHomeDomainUpdated = ({homeDomain}) => (
+const AccountHomeDomainUpdated = ({ homeDomain }) => (
   <span>
-    <FormattedMessage id="home.domain" />
+    <FormattedMessage id='home.domain' />
     {': '}
-    <a href={`https://${homeDomain}`} target="_blank">
+    <a href={`https://${homeDomain}`} target='_blank' rel='noreferrer'>
       {homeDomain}
     </a>
   </span>
 )
 
-const AccountRemoved = ({account}) => (
+const AccountRemoved = ({ account }) => (
   <span>
-    <FormattedMessage id="account" />
+    <FormattedMessage id='account' />
     {': '}
     {account}
   </span>
@@ -64,12 +64,12 @@ const Amount = ({
   assetType,
   assetCode,
   assetIssuer,
-  showLabel = true,
+  showLabel = true
 }) => (
   <span>
     {showLabel === true && (
       <span>
-        <FormattedMessage id="amount" />
+        <FormattedMessage id='amount' />
         {': '}
       </span>
     )}
@@ -78,23 +78,23 @@ const Amount = ({
   </span>
 )
 
-const AssetWrap = ({assetType, assetCode, assetIssuer}) => (
+const AssetWrap = ({ assetType, assetCode, assetIssuer }) => (
   <Asset code={assetCode} type={assetType} issuer={assetIssuer} />
 )
 
-const Data = ({op, type}) => {
+const Data = ({ op, type }) => {
   if (!op) return null
   return (
     <div>
       <div>
-        <FormattedMessage id="key" />
+        <FormattedMessage id='key' />
         {': '}
         <span title={op.name}>{truncate(op.name)}</span>
       </div>
 
       {type !== 'data_removed' && (
         <div>
-          <FormattedMessage id="value" />
+          <FormattedMessage id='value' />
           {': '}
           <span title={op.value}>{truncate(base64Decode(op.value))}</span>
         </div>
@@ -103,14 +103,14 @@ const Data = ({op, type}) => {
   )
 }
 
-const SequenceBumped = ({newSeq}) => <span>{newSeq}</span>
+const SequenceBumped = ({ newSeq }) => <span>{newSeq}</span>
 
-const Signer = ({publicKey, weight}) => (
+const Signer = ({ publicKey, weight }) => (
   <span>
-    <FormattedMessage id="key.public" />
+    <FormattedMessage id='key.public' />
     {': '}
     <AccountLink account={publicKey} />
-    {'; '} <FormattedMessage id="weight" />
+    {'; '} <FormattedMessage id='weight' />
     {': '}
     {weight}
   </span>
@@ -125,10 +125,10 @@ const Trade = ({
   soldAmount,
   soldAssetType,
   soldAssetCode,
-  soldAssetIssuer,
+  soldAssetIssuer
 }) => (
   <span>
-    <FormattedMessage id="bought" />
+    <FormattedMessage id='bought' />
     {': '}
     <Amount
       amount={boughtAmount}
@@ -138,7 +138,7 @@ const Trade = ({
       showLabel={false}
     />
     {'; '}
-    <FormattedMessage id="sold" />
+    <FormattedMessage id='sold' />
     {': '}
     <Amount
       amount={soldAmount}
@@ -148,25 +148,21 @@ const Trade = ({
       showLabel={false}
     />
     {'; '}
-    <FormattedMessage id="seller" />
+    <FormattedMessage id='seller' />
     {': '}
     <AccountLink account={seller} />
   </span>
 )
 
-const Trustline = ({assetType, assetCode, assetIssuer, limit, trustor}) => (
+const Trustline = ({ assetType, assetCode, assetIssuer, limit, trustor }) => (
   <span>
-    <FormattedMessage id="asset" />
+    <FormattedMessage id='asset' />
     {': '}
-    <Asset
-      code={assetCode}
-      type={assetType}
-      issuer={assetIssuer ? assetIssuer : trustor}
-    />
+    <Asset code={assetCode} type={assetType} issuer={assetIssuer || trustor} />
     {limit && (
       <span>
         {'; '}
-        <FormattedMessage id="limit" />
+        <FormattedMessage id='limit' />
         {': '}
         {limit}
       </span>
@@ -174,13 +170,13 @@ const Trustline = ({assetType, assetCode, assetIssuer, limit, trustor}) => (
   </span>
 )
 
-const Thresholds = ({lowThreshold, medThreshold, highThreshold}) => (
+const Thresholds = ({ lowThreshold, medThreshold, highThreshold }) => (
   <span>
-    <FormattedMessage id="threshold.low" />
+    <FormattedMessage id='threshold.low' />
     {`: ${lowThreshold} / `}
-    <FormattedMessage id="threshold.medium" />
+    <FormattedMessage id='threshold.medium' />
     {`: ${medThreshold} / `}
-    <FormattedMessage id="threshold.high" />
+    <FormattedMessage id='threshold.high' />
     {`: ${highThreshold}`}
   </span>
 )
@@ -208,23 +204,23 @@ const effectTypeComponentMap = {
   trade: Trade,
   data_created: Data,
   data_removed: Data,
-  data_updated: Data,
+  data_updated: Data
 }
 
-const EffectDetails = ({effect, op}) => {
+const EffectDetails = ({ effect, op }) => {
   const SubEffectComponent = effectTypeComponentMap[effect.type]
   if (!SubEffectComponent) return <span>{effect.type}</span>
   return <SubEffectComponent {...effect} op={op} />
 }
 
 class Effect extends React.Component {
-  state = {op: null, txHash: null}
+  state = { op: null, txHash: null }
 
-  componentDidMount() {
-    this.props.effect.operation().then(op =>
+  componentDidMount () {
+    this.props.effect.operation().then((op) =>
       this.setState({
-        op: op,
-        txHash: op.transaction_hash,
+        op,
+        txHash: op.transaction_hash
       })
     )
   }
@@ -233,23 +229,23 @@ class Effect extends React.Component {
    * Given list of records from a horizon response, pick out the one for this
    * effect.
    */
-  filterEffectsFn() {
+  filterEffectsFn () {
     const effectId = this.props.effect.id
-    return recordsArr => {
-      const result = recordsArr.filter(({id}) => id === effectId)
+    return (recordsArr) => {
+      const result = recordsArr.filter(({ id }) => id === effectId)
       return result.length > 0 ? JSON.stringify(result[0], null, 2) : null
     }
   }
 
-  render() {
-    const {effect, effectURLFn, showAccount = true} = this.props
+  render () {
+    const { effect, effectURLFn, showAccount = true } = this.props
 
     const opId = this.state.op != null ? this.state.op.id : null
 
     return (
-      <tr key={effect.id} id={effect.id} className="effect">
+      <tr key={effect.id} id={effect.id} className='effect'>
         {showAccount && (
-          <td className="account-badge">
+          <td className='account-badge'>
             <AccountLink account={effect.account} />
           </td>
         )}
@@ -259,7 +255,7 @@ class Effect extends React.Component {
         </td>
         <td>
           {this.state.txHash != null && (
-            <TransactionHash hash={this.state.txHash} compact={true} />
+            <TransactionHash hash={this.state.txHash} compact />
           )}
         </td>
         <td>
@@ -285,10 +281,10 @@ Effect.propTypes = {
     links: propTypes.object.isRequired,
     account: propTypes.string.isRequired,
     type: propTypes.string.isRequired,
-    created_at: propTypes.string,
+    created_at: propTypes.string
   }).isRequired,
   effectURLFn: propTypes.func.isRequired,
-  parentRenderTimestamp: propTypes.number,
+  parentRenderTimestamp: propTypes.number
 }
 
 export default Effect

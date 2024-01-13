@@ -2,18 +2,18 @@ import isNaN from 'lodash/isNaN'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
 import toNumber from 'lodash/toNumber'
-import {sdk} from './stellar'
+import { sdk } from './stellar'
 
 import {
   isFederatedAddress,
   isMuxedAddress,
   isPublicKey,
   isSecretKey,
-  isTxHash,
+  isTxHash
 } from './stellar/utils'
 import directory from '../data/directory'
 
-const {anchors, assets} = directory
+const { anchors, assets } = directory
 
 const lcEquals = (str1, str2) =>
   !isEmpty(str1) && !isEmpty(str2) && str1.toLowerCase() === str2.toLowerCase()
@@ -23,19 +23,19 @@ const lcIncludes = (str1, str2) =>
   !isEmpty(str2) &&
   str1.toLowerCase().includes(str2.toLowerCase())
 
-const searchAssetCode = code =>
+const searchAssetCode = (code) =>
   Object.keys(assets)
-    .filter(key => lcEquals(assets[key].code, code.toUpperCase()))
-    .map(key => assets[key])
+    .filter((key) => lcEquals(assets[key].code, code.toUpperCase()))
+    .map((key) => assets[key])
 
-const searchAnchorName = name =>
+const searchAnchorName = (name) =>
   Object.keys(anchors).filter(
-    key =>
+    (key) =>
       lcIncludes(anchors[key].name, name) ||
       lcIncludes(anchors[key].displayName, name)
   )
 
-const searchStrToPath = searchStr => {
+const searchStrToPath = (searchStr) => {
   if (!isString(searchStr) || searchStr.trim() === '') return null
 
   const str = searchStr.trim()
@@ -66,4 +66,4 @@ const searchStrToPath = searchStr => {
   return `/error/not-found/${searchStr}`
 }
 
-export {searchStrToPath}
+export { searchStrToPath }

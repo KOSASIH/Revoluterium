@@ -7,9 +7,9 @@ import has from 'lodash/has'
 import mapKeys from 'lodash/mapKeys'
 import omit from 'lodash/omit'
 
-import {withServer} from './HOCs'
-import {handleFetchDataFailure} from '../../lib/utils'
-import {exportCSV} from '../../lib/csv'
+import { withServer } from './HOCs'
+import { handleFetchDataFailure } from '../../lib/utils'
+import { exportCSV } from '../../lib/csv'
 
 // there is a hard limitation of how many records can be exported.
 // this limitation is here to prevent browser memory overload and
@@ -22,7 +22,7 @@ const propTypesContainer = {
   page: PropTypes.number,
   usePaging: PropTypes.bool,
   refresh: PropTypes.bool,
-  server: PropTypes.object,
+  server: PropTypes.object
 }
 
 /**
@@ -34,8 +34,8 @@ const propTypesContainer = {
  * @param rspRecToPropsRecFn {Function} Converts from server response record
  *          format to some other format that the consuming container expects.
  */
-const withDataFetchingAllContainer = fetchDataFn => Component => {
-  const rspRecToPropsRecFn = record => {
+const withDataFetchingAllContainer = (fetchDataFn) => (Component) => {
+  const rspRecToPropsRecFn = (record) => {
     record = mapKeys(record, (v, k) => camelCase(k))
     return omit(record, ['links', 'pagingToken'])
   }
@@ -45,7 +45,7 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
       limit: 100,
       page: 0,
       refresh: false,
-      usePaging: false,
+      usePaging: false
     }
 
     state = {
@@ -53,26 +53,26 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
       wasExportStarted: false,
       isExportingFinished: false,
       exportLimitExceeded: false,
-      fetchedRecords: [],
+      fetchedRecords: []
     }
 
-    componentDidMount() {
-      this.fetchDataFn = state => {
+    componentDidMount () {
+      this.fetchDataFn = (state) => {
         this.fetchData(state.next())
       }
     }
 
-    componentWillUnmount() {
+    componentWillUnmount () {
       this.fetchDataFn = null
     }
 
     /*
      * This function fetches the entire dataset recursively.
      */
-    fetchData(fetchDataPromise) {
+    fetchData (fetchDataPromise) {
       fetchDataPromise
-        .then(r => this.responseToState(r))
-        .then(newState => {
+        .then((r) => this.responseToState(r))
+        .then((newState) => {
           this.setState(newState)
           return null
         })
@@ -83,7 +83,7 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
             this.state.cursor === 0 && this.state.fetchedRecords.length > 0
           if (endReached || exportLimitExceeded) {
             exportCSV(this.state.fetchedRecords)
-            var newState = {isExportingFinished: true, exportLimitExceeded}
+            const newState = { isExportingFinished: true, exportLimitExceeded }
             this.setState(newState)
             return
           }
@@ -91,7 +91,7 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
           const isEndReached =
             this.state.cursor === 0 && this.state.fetchedRecords.length === 0
           if (this.state.wasExportStarted && isEndReached) {
-            this.setState({isExportingFinished: true})
+            this.setState({ isExportingFinished: true })
             return
           }
 
@@ -103,13 +103,13 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
             this.fetchDataFn(this.state)
           }
         })
-        .catch(e => {
+        .catch((e) => {
           handleFetchDataFailure()(e)
-          this.setState({wasExportStarted: false})
+          this.setState({ wasExportStarted: false })
         })
     }
 
-    responseToState(rsp) {
+    responseToState (rsp) {
       const cursor =
         rsp.records.length > 0 && has(rsp.records[0], 'paging_token')
           ? rsp.records[0].paging_token
@@ -125,11 +125,11 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
           rsp.records.map(rspRecToPropsRecFn)
         ),
         cursor,
-        parentRenderTimestamp: Date.now(),
+        parentRenderTimestamp: Date.now()
       }
     }
 
-    render() {
+    render () {
       return (
         <div>
           <Component
@@ -137,10 +137,10 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
             isExportingFinished={this.state.isExportingFinished}
             exportLimitExceeded={this.state.exportLimitExceeded}
             onClick={() => {
-              const newState = {limit: 100, wasExportStarted: true}
+              const newState = { limit: 100, wasExportStarted: true }
               this.setState(newState)
 
-              var initial = extend({}, this.props, newState)
+              const initial = extend({}, this.props, newState)
               this.fetchData(fetchDataFn(initial))
             }}
             fetchedRecords={this.state.fetchedRecords}
@@ -157,4 +157,4 @@ const withDataFetchingAllContainer = fetchDataFn => Component => {
   return withServer(dataFetchingContainerClass)
 }
 
-export {withDataFetchingAllContainer}
+export { withDataFetchingAllContainer }

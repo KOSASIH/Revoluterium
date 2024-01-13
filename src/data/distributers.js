@@ -1,5 +1,5 @@
 import directory from '../data/directory'
-const {anchors} = directory
+const { anchors } = directory
 
 /**
  * Register some known distributer accounts linking to thier issuer accounts.
@@ -36,5 +36,5 @@ export default {
   GBNDDA3CJ6WDRE36TDGDNTTVV3QET7MRDINP3HUMIKBPQBKQGITZ73T5: issuer(
     'nrvcoin.in',
     'NRV'
-  ),
+  )
 }

@@ -1,25 +1,29 @@
 import React from 'react'
 import Table from 'react-bootstrap/lib/Table'
-import {Link} from 'react-router-dom'
-import {FormattedMessage} from 'react-intl'
+import { Link } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import {withSpinner} from './shared/Spinner'
+import { withSpinner } from './shared/Spinner'
 import TimeSynchronisedFormattedRelative from './shared/TimeSynchronizedFormattedRelative'
 
-const LedgerRow = props => (
+const LedgerRow = (props) => (
   <tr>
     <td>
       <Link to={`/block/${props.sequence}`}>{props.sequence}</Link>
     </td>
     <td>
-      {props.txCountSuccessful > 0 ? (
-        <Link to={`/block/${props.sequence}#txs-table`}>{props.txCountSuccessful}</Link>
-      ) : (
-        props.txCountSuccessful
-      )} 
-      {props.compact === false && (<span>{' '}successful</span>)} 
-       {' '}/ {props.txCountFailed} 
-       {props.compact === false && (<span>{' '}failed</span>)}
+      {props.txCountSuccessful > 0
+        ? (
+          <Link to={`/block/${props.sequence}#txs-table`}>
+            {props.txCountSuccessful}
+          </Link>
+          )
+        : (
+            props.txCountSuccessful
+          )}
+      {props.compact === false && <span> successful</span>} /{' '}
+      {props.txCountFailed}
+      {props.compact === false && <span> failed</span>}
     </td>
     <td>
       <span title={props.time}>
@@ -39,29 +43,29 @@ LedgerRow.propTypes = {
   sequence: PropTypes.number,
   txCountSuccessful: PropTypes.number,
   txCountFailed: PropTypes.number,
-  time: PropTypes.string,
+  time: PropTypes.string
 }
 
 class LedgerTable extends React.PureComponent {
-  render() {
+  render () {
     return (
       <Table
-        id="ledger-table"
-        className="table-striped table-hover table-condensed"
+        id='ledger-table'
+        className='table-striped table-hover table-condensed'
       >
         <thead>
           <tr>
             <th>#</th>
             <th>
-              <FormattedMessage id="transactions" />
+              <FormattedMessage id='transactions' />
             </th>
             <th>
-              <FormattedMessage id="time" />
+              <FormattedMessage id='time' />
             </th>
           </tr>
         </thead>
         <tbody>
-          {this.props.records.map(ledger => (
+          {this.props.records.map((ledger) => (
             <LedgerRow
               compact={this.props.compact}
               key={ledger.sequence}
@@ -81,7 +85,7 @@ class LedgerTable extends React.PureComponent {
 LedgerTable.propTypes = {
   compact: PropTypes.bool,
   parentRenderTimestamp: PropTypes.number,
-  records: PropTypes.array,
+  records: PropTypes.array
 }
 
 export default withSpinner()(LedgerTable)

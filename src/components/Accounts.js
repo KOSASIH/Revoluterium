@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/lib/Row'
 import AccountTable from './AccountTable'
 
 class Accounts extends React.Component {
-  render() {
+  render () {
     return (
       <Grid>
         <Row>

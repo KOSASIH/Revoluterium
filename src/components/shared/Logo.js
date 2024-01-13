@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // 2 supported logo forms
-const squareDimensions = {height: 75, width: 75}
-const rectangleDimensions = {height: 40, width: 150}
+const squareDimensions = { height: 75, width: 75 }
+const rectangleDimensions = { height: 40, width: 150 }
 
 // exchange image from anchor image
 const imagesInBoth = ['papayabot', 'papayaswap', 'ripplefox']
 
-const Logo = ({name, type = 'anchor'}) => {
+const Logo = ({ name, type = 'anchor' }) => {
   const nameLower = name.toLowerCase()
   const imgSrc = `${process.env.PUBLIC_URL}/img/${nameLower}.png`
   const dimen =
@@ -30,7 +30,7 @@ const Logo = ({name, type = 'anchor'}) => {
 
 Logo.propTypes = {
   name: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  type: PropTypes.string
 }
 
 export default Logo

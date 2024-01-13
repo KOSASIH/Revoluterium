@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
+import { compose } from 'recompose'
 import Table from 'react-bootstrap/lib/Table'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import mapKeys from 'lodash/mapKeys'
 import camelCase from 'lodash/camelCase'
@@ -10,16 +10,21 @@ import camelCase from 'lodash/camelCase'
 import AccountLink from './shared/AccountLink'
 import FormattedAmount from './shared/FormattedAmount'
 import Asset from './shared/Asset'
-import {withDataFetchingContainer} from './shared/DataFetchingContainer'
-import {withDataFetchingAllContainer} from './shared/DataFetchingAllContainer'
-import {withPaging} from './shared/Paging'
-import {withSpinner} from './shared/Spinner'
+import { withDataFetchingContainer } from './shared/DataFetchingContainer'
+import { withDataFetchingAllContainer } from './shared/DataFetchingAllContainer'
+import { withPaging } from './shared/Paging'
+import { withSpinner } from './shared/Spinner'
 import TimeSynchronisedFormattedRelative from './shared/TimeSynchronizedFormattedRelative'
 import CSVExport from './shared/CSVExport'
 
-import {isPublicKey} from '../lib/stellar/utils'
+import { isPublicKey } from '../lib/stellar/utils'
 
-const Trade = ({account, singleAccountView, trade, parentRenderTimestamp}) => {
+const Trade = ({
+  account,
+  singleAccountView,
+  trade,
+  parentRenderTimestamp
+}) => {
   const Base = (
     <span>
       <FormattedAmount amount={trade.baseAmount} />{' '}
@@ -57,15 +62,15 @@ const Trade = ({account, singleAccountView, trade, parentRenderTimestamp}) => {
   }
 
   return (
-    <tr key={trade.id} className="trade">
+    <tr key={trade.id} className='trade'>
       <td>
-        <span className="account-badge">
+        <span className='account-badge'>
           <AccountLink account={account1} />
         </span>
       </td>
       <td>{baseFirst ? Base : Counter}</td>
       <td>
-        <span className="account-badge">
+        <span className='account-badge'>
           <AccountLink account={account2} />
         </span>
       </td>
@@ -89,56 +94,57 @@ Trade.propTypes = {
     baseIsSeller: PropTypes.bool.isRequired,
     baseAccount: PropTypes.string.isRequired,
     counterAccount: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired
   }).isRequired,
   account: PropTypes.string,
-  singleAccountView: PropTypes.bool,
+  singleAccountView: PropTypes.bool
 }
 
 class TradeTable extends React.Component {
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.page === 0 && this.props.records.length < this.props.limit) {
       this.props.hidePagingFn()
     }
   }
 
-  render() {
-    const {server, parentRenderTimestamp, account, records} = this.props
+  render () {
+    const { server, parentRenderTimestamp, account, records } = this.props
 
-    if (records.length === 0)
-      return <div style={{marginTop: 20, marginBottom: 20}}>No Trades</div>
+    if (records.length === 0) {
+      return <div style={{ marginTop: 20, marginBottom: 20 }}>No Trades</div>
+    }
 
     const singleAccountView = isPublicKey(account)
 
     return (
       <div>
         <Table
-          id="trade-table"
-          className="table-striped table-hover table-condensed"
+          id='trade-table'
+          className='table-striped table-hover table-condensed'
         >
           <thead>
             <tr>
               <th>
-                <FormattedMessage id="account" />
+                <FormattedMessage id='account' />
                 {' 1'}
               </th>
               <th>
-                <FormattedMessage id="bought" />
+                <FormattedMessage id='bought' />
               </th>
               <th>
-                <FormattedMessage id="account" />
+                <FormattedMessage id='account' />
                 {' 2'}
               </th>
               <th>
-                <FormattedMessage id="bought" />
+                <FormattedMessage id='bought' />
               </th>
               <th>
-                <FormattedMessage id="time" />
+                <FormattedMessage id='time' />
               </th>
             </tr>
           </thead>
           <tbody>
-            {records.map(trade => (
+            {records.map((trade) => (
               <Trade
                 key={trade.id}
                 trade={trade}
@@ -149,7 +155,7 @@ class TradeTable extends React.Component {
             ))}
           </tbody>
         </Table>
-        <div className="text-center" id="csv-export">
+        <div className='text-center' id='csv-export'>
           <ExportToCSVComponent account={account} server={server} />
         </div>
       </div>
@@ -162,15 +168,15 @@ TradeTable.propTypes = {
   records: PropTypes.array.isRequired,
   server: PropTypes.object.isRequired,
   account: PropTypes.string,
-  accountView: PropTypes.bool,
+  accountView: PropTypes.bool
 }
 
-const rspRecToPropsRec = record => {
+const rspRecToPropsRec = (record) => {
   record.time = record.ledger_close_time
   return mapKeys(record, (v, k) => camelCase(k))
 }
 
-const fetchRecords = ({account, limit, server}) => {
+const fetchRecords = ({ account, limit, server }) => {
   const builder = server.trades()
   if (account) builder.forAccount(account)
   builder.limit(limit)
@@ -178,7 +184,7 @@ const fetchRecords = ({account, limit, server}) => {
   return builder.call()
 }
 
-const callBuilder = props => props.server.trades()
+const callBuilder = (props) => props.server.trades()
 
 const ExportToCSVComponent = withDataFetchingAllContainer(
   fetchRecords,

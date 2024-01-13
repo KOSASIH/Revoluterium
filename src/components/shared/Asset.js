@@ -2,14 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import AccountLink from './AccountLink'
 
-const Asset = ({code, issuer, type}) => {
+const Asset = ({ code, issuer, type }) => {
   const isLumens = type === 'native'
   const propCode = isLumens ? 'Test-π' : code
   return (
     <span>
       {propCode}{' '}
       {!isLumens && (
-        <span style={{fontSize: 'x-small'}}>
+        <span style={{ fontSize: 'x-small' }}>
           [<AccountLink account={issuer} />]
         </span>
       )}
@@ -21,7 +21,7 @@ const Asset = ({code, issuer, type}) => {
 Asset.propTypes = {
   code: PropTypes.string,
   issuer: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired
 }
 
 export default Asset

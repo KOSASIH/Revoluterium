@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
+import { compose } from 'recompose'
 import Table from 'react-bootstrap/lib/Table'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import mapKeys from 'lodash/mapKeys'
 import camelCase from 'lodash/camelCase'
 
-import {withDataFetchingContainer} from './shared/DataFetchingContainer'
-import {withDataFetchingAllContainer} from './shared/DataFetchingAllContainer'
-import {withPaging} from './shared/Paging'
-import {withSpinner} from './shared/Spinner'
+import { withDataFetchingContainer } from './shared/DataFetchingContainer'
+import { withDataFetchingAllContainer } from './shared/DataFetchingAllContainer'
+import { withPaging } from './shared/Paging'
+import { withSpinner } from './shared/Spinner'
 import Effect from './Effect'
 import CSVExport from './shared/CSVExport'
 
@@ -19,37 +19,37 @@ const EffectTable = ({
   records,
   server,
   showAccount = true,
-  account,
+  account
 }) => (
   <div>
     <Table
-      id="effect-table"
-      className="table-striped table-hover table-condensed"
+      id='effect-table'
+      className='table-striped table-hover table-condensed'
     >
       <thead>
         <tr>
           {showAccount && (
             <th>
-              <FormattedMessage id="account" />
+              <FormattedMessage id='account' />
             </th>
           )}
           <th>
-            <FormattedMessage id="type" />
+            <FormattedMessage id='type' />
           </th>
           <th>
-            <FormattedMessage id="details" />
+            <FormattedMessage id='details' />
           </th>
           <th>
-            <FormattedMessage id="transaction" />
+            <FormattedMessage id='transaction' />
           </th>
           <th>
-            <FormattedMessage id="time" />
+            <FormattedMessage id='time' />
           </th>
           <th />
         </tr>
       </thead>
       <tbody>
-        {records.map(effect => {
+        {records.map((effect) => {
           return (
             <Effect
               key={effect.id}
@@ -62,7 +62,7 @@ const EffectTable = ({
         })}
       </tbody>
     </Table>
-    <div className="text-center" id="csv-export">
+    <div className='text-center' id='csv-export'>
       <ExportToCSVComponent server={server} account={account} />
     </div>
   </div>
@@ -72,12 +72,12 @@ EffectTable.propTypes = {
   parentRenderTimestamp: PropTypes.number,
   records: PropTypes.array.isRequired,
   server: PropTypes.object.isRequired,
-  showAccount: PropTypes.bool,
+  showAccount: PropTypes.bool
 }
 
-const rspRecToPropsRec = record => mapKeys(record, (v, k) => camelCase(k))
+const rspRecToPropsRec = (record) => mapKeys(record, (v, k) => camelCase(k))
 
-const fetchRecords = ({account, limit, op, server, tx}) => {
+const fetchRecords = ({ account, limit, op, server, tx }) => {
   const builder = server.effects()
   if (account) builder.forAccount(account)
   if (op) builder.forOperation(op)
@@ -93,8 +93,7 @@ const enhance = compose(
   withSpinner()
 )
 
-const ExportToCSVComponent = withDataFetchingAllContainer(fetchRecords)(
-  CSVExport
-)
+const ExportToCSVComponent =
+  withDataFetchingAllContainer(fetchRecords)(CSVExport)
 
 export default enhance(EffectTable)

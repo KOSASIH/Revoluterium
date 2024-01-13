@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {FormattedMessage} from 'react-intl'
-import {StrKey} from 'stellar-sdk'
+import { FormattedMessage } from 'react-intl'
+import { StrKey } from 'stellar-sdk'
 import AccountLink from '../shared/AccountLink'
 import snakeCase from 'lodash/snakeCase'
-import {isPublicKey} from '../../lib/stellar/utils'
-import {shortHash} from '../../lib/utils'
+import { isPublicKey } from '../../lib/stellar/utils'
+import { shortHash } from '../../lib/utils'
 
 const propTypes = {
   homeDomain: PropTypes.string,
@@ -17,23 +17,23 @@ const propTypes = {
   clearFlagsS: PropTypes.array,
   lowThreshold: PropTypes.number,
   medThreshold: PropTypes.number,
-  highThreshold: PropTypes.number,
+  highThreshold: PropTypes.number
 }
 
-const dotCase = str => snakeCase(str).replace('_', '.')
+const dotCase = (str) => snakeCase(str).replace('_', '.')
 
-const Option = ({msgId, value}) => {
+const Option = ({ msgId, value }) => {
   return (
     <FormattedMessage
       id={`operation.options.set.${msgId}`}
       values={{
-        value: value,
+        value
       }}
     />
   )
 }
 
-const OptionValue = ({optKey, value}) => {
+const OptionValue = ({ optKey, value }) => {
   let valueEl = value
   if (value instanceof Array) valueEl = value.join(', ')
   else if (
@@ -54,10 +54,10 @@ const OptionValue = ({optKey, value}) => {
   return <span>{valueEl}</span>
 }
 
-const OptionsList = props => (
+const OptionsList = (props) => (
   <span>
     {Object.keys(props)
-      .filter(p => p in propTypes)
+      .filter((p) => p in propTypes)
       .map((prop, idx, all) => (
         <span key={prop}>
           <Option
@@ -70,11 +70,11 @@ const OptionsList = props => (
   </span>
 )
 
-const SetOptions = props => (
+const SetOptions = (props) => (
   <FormattedMessage
-    id="operation.options.set"
+    id='operation.options.set'
     values={{
-      options: <OptionsList {...props} />,
+      options: <OptionsList {...props} />
     }}
   />
 )
