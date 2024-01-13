@@ -27,12 +27,12 @@ const assetKeyToIssuer = (key) => key.substring(key.indexOf('-') + 1)
 
 const handleFetchDataFailure = (id) => (e) => {
   let status
-  if (e.data && e.data.status) status = e.data.status
-  else if (e.response && e.response.status) status = e.response.status
+  if (e.data?.status) status = e.data.status
+  else if (e.response?.status) status = e.response.status
 
   let msg = 'Failed to fetch data:'
   if (status) msg += `\n\tStatus: [${status}]`
-  if (e.response && e.response.status) {
+  if (e.response?.status) {
     msg += `\n\tStatus: [${e.response.status}]`
   }
   if (e.message) msg += `\n\tMessage: [${e.message}]`
