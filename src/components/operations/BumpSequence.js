@@ -1,11 +1,11 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
-const BumpSequence = props => (
+const BumpSequence = (props) => (
   <FormattedMessage
-    id="operation.bump"
+    id='operation.bump'
     values={{
-      sequence: String(props.bumpTo),
+      sequence: String(props.bumpTo)
     }}
   />
 )

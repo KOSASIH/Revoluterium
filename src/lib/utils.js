@@ -1,5 +1,5 @@
-import {join} from 'path'
-import {tmpdir} from 'os'
+import { join } from 'path'
+import { tmpdir } from 'os'
 import BigNumber from 'bignumber.js'
 import truncate from 'lodash/truncate'
 
@@ -7,32 +7,34 @@ import truncate from 'lodash/truncate'
 // So setting the EXPONENTIAL_AT to 8 here ensures all toString() will show the
 // numbers in full form. eg. 0.0000001 (not 1e7) which is what we want for
 // formatAmount().
-BigNumber.config({EXPONENTIAL_AT: 20})
+BigNumber.config({ EXPONENTIAL_AT: 20 })
 
 const shortAddress = (address, length = 4) => address.substring(0, length)
 
-const shortHash = (hash, length = 10) => truncate(hash, {length})
+const shortHash = (hash, length = 10) => truncate(hash, { length })
 
 const isDefInt = (obj, key) => {
   if (!obj || !key || obj.hasOwnProperty(key) === false) return false
   return Number.isInteger(Number(obj[key]))
 }
 
-const base64Decode = value => Buffer.from(value, 'base64').toString()
-const base64DecodeToHex = value => Buffer.from(value, 'base64').toString('hex')
+const base64Decode = (value) => Buffer.from(value, 'base64').toString()
+const base64DecodeToHex = (value) =>
+  Buffer.from(value, 'base64').toString('hex')
 
 // Extract asset issuer address from keys in the form <code>-<issuer>
-const assetKeyToIssuer = key => key.substring(key.indexOf('-') + 1)
+const assetKeyToIssuer = (key) => key.substring(key.indexOf('-') + 1)
 
-const handleFetchDataFailure = id => e => {
+const handleFetchDataFailure = (id) => (e) => {
   let status
   if (e.data && e.data.status) status = e.data.status
   else if (e.response && e.response.status) status = e.response.status
 
   let msg = 'Failed to fetch data:'
   if (status) msg += `\n\tStatus: [${status}]`
-  if (e.response && e.response.status)
+  if (e.response && e.response.status) {
     msg += `\n\tStatus: [${e.response.status}]`
+  }
   if (e.message) msg += `\n\tMessage: [${e.message}]`
   if (e.stack) msg += `\n\tStack: [${e.stack}]`
 
@@ -64,11 +66,12 @@ const storageInit = () => {
   return storage
 }
 
-const formatAmount = amount => {
+const formatAmount = (amount) => {
   return new BigNumber(amount).toString()
 }
 
-const setTitle = subTitle => (document.title = `Pi Blockexplorer | ${subTitle}`)
+const setTitle = (subTitle) =>
+  (document.title = `Pi Blockexplorer | ${subTitle}`)
 
 export {
   assetKeyToIssuer,
@@ -80,5 +83,5 @@ export {
   setTitle,
   shortAddress,
   shortHash,
-  storageInit,
+  storageInit
 }

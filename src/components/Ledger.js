@@ -4,26 +4,26 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Panel from 'react-bootstrap/lib/Panel'
 import Row from 'react-bootstrap/lib/Row'
 import Table from 'react-bootstrap/lib/Table'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   injectIntl,
   FormattedDate,
   FormattedNumber,
   FormattedMessage,
-  FormattedTime,
+  FormattedTime
 } from 'react-intl'
 import has from 'lodash/has'
 
-import {stroopsToLumens} from '../lib/stellar/utils'
-import {handleFetchDataFailure, setTitle, shortHash} from '../lib/utils'
+import { stroopsToLumens } from '../lib/stellar/utils'
+import { handleFetchDataFailure, setTitle, shortHash } from '../lib/utils'
 import ClipboardCopy from './shared/ClipboardCopy'
-import {withServer} from './shared/HOCs'
+import { withServer } from './shared/HOCs'
 import TransactionTable from './TransactionTableContainer'
-import {titleWithJSONButton} from './shared/TitleWithJSONButton'
+import { titleWithJSONButton } from './shared/TitleWithJSONButton'
 
-const ledgerHash = hash => shortHash(hash, 20)
+const ledgerHash = (hash) => shortHash(hash, 20)
 
-const responseToState = rsp => {
+const responseToState = (rsp) => {
   setTitle(`Ledger ${rsp.sequence}`)
   // NOTE: as at 11 March 2018 testnet horizon returns base values in stroops
   //        but mainnet returns in lumens. so handling both until all are moved
@@ -45,11 +45,11 @@ const responseToState = rsp => {
 
     baseInStroops,
     baseFee: baseInStroops ? rsp.base_fee_in_stroops : rsp.base_fee,
-    baseReserve: baseInStroops ? rsp.base_reserve_in_stroops : rsp.base_reserve,
+    baseReserve: baseInStroops ? rsp.base_reserve_in_stroops : rsp.base_reserve
   }
 }
 
-const DetailRow = ({label, children}) => (
+const DetailRow = ({ label, children }) => (
   <tr>
     <td>
       <FormattedMessage id={label} />
@@ -59,7 +59,7 @@ const DetailRow = ({label, children}) => (
 )
 
 class Ledger extends React.Component {
-  render() {
+  render () {
     const {
       baseInStroops,
       baseFee,
@@ -76,10 +76,10 @@ class Ledger extends React.Component {
       totalCoins,
       txCountSuccessful,
       txCountFailed,
-      urlFn,
+      urlFn
     } = this.props
 
-    const {formatMessage} = this.props.intl
+    const { formatMessage } = this.props.intl
 
     return (
       <Grid>
@@ -87,8 +87,8 @@ class Ledger extends React.Component {
           <Panel
             header={titleWithJSONButton(
               <span>
-                {formatMessage({id: 'ledger'})}{' '}
-                <span className="secondary-heading">{seq}</span>
+                {formatMessage({ id: 'ledger' })}{' '}
+                <span className='secondary-heading'>{seq}</span>
                 <ClipboardCopy text={String(seq)} />
               </span>,
               urlFn(seq)
@@ -97,25 +97,25 @@ class Ledger extends React.Component {
             <Col md={6}>
               <Table>
                 <tbody>
-                  <DetailRow label="time">
+                  <DetailRow label='time'>
                     <FormattedDate value={time} />{' '}
                     <FormattedTime value={time} />
                   </DetailRow>
-                  <DetailRow label="hash">
+                  <DetailRow label='hash'>
                     <span title={hash}>{ledgerHash(hash)}</span>
                   </DetailRow>
-                  <DetailRow label="prevHash">
+                  <DetailRow label='prevHash'>
                     <span title={prevHash}>
                       <Link to={`/block/${prevSeq}`}>
                         {ledgerHash(prevHash)}
                       </Link>
                     </span>
                   </DetailRow>
-                  <DetailRow label="operations">{opCount}</DetailRow>
-                  <DetailRow label="transactions.failed">
+                  <DetailRow label='operations'>{opCount}</DetailRow>
+                  <DetailRow label='transactions.failed'>
                     {txCountFailed}
                   </DetailRow>
-                  <DetailRow label="max.transactions">
+                  <DetailRow label='max.transactions'>
                     {maxTxSetSize} per block
                   </DetailRow>
                 </tbody>
@@ -124,22 +124,22 @@ class Ledger extends React.Component {
             <Col md={6}>
               <Table>
                 <tbody>
-                  <DetailRow label="base.fee">
+                  <DetailRow label='base.fee'>
                     <FormattedNumber value={baseFee * 1e-7} /> Test-π
                   </DetailRow>
-                  <DetailRow label="base.reserve">
+                  <DetailRow label='base.reserve'>
                     {baseInStroops
                       ? stroopsToLumens(baseReserve)
                       : Number(baseReserve)}{' '}
                     Test-π
                   </DetailRow>
-                  <DetailRow label="fee.pool">
+                  <DetailRow label='fee.pool'>
                     <FormattedNumber value={feePool} /> Test-π
                   </DetailRow>
-                  <DetailRow label="total.coins">
+                  <DetailRow label='total.coins'>
                     <FormattedNumber value={totalCoins} /> Test-π
                   </DetailRow>
-                  <DetailRow label="protocolVersion">{protocol}</DetailRow>
+                  <DetailRow label='protocolVersion'>{protocol}</DetailRow>
                 </tbody>
               </Table>
             </Col>
@@ -148,8 +148,8 @@ class Ledger extends React.Component {
         {opCount > 0 && (
           <Row>
             <h3>
-              <a id="txs-table" aria-hidden="true" />
-              <FormattedMessage id="transactions" />
+              <a id='txs-table' aria-hidden='true' />
+              <FormattedMessage id='transactions' />
               &nbsp;({txCountSuccessful})
             </h3>
             <TransactionTable
@@ -168,37 +168,39 @@ class Ledger extends React.Component {
 
 class LedgerContainer extends React.Component {
   state = {
-    seq: 0,
+    seq: 0
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.loadLedger(this.props.match.params.id)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.loadLedger(nextProps.match.params.id)
   }
 
-  loadLedger(ledgerId) {
+  loadLedger (ledgerId) {
     this.props.server
       .ledgers()
       .ledger(ledgerId)
       .call()
-      .then(res => {
+      .then((res) => {
         this.setState(responseToState(res))
         return null
       })
       .catch(handleFetchDataFailure(ledgerId))
   }
 
-  render() {
-    return this.state.seq === 0 ? null : (
-      <Ledger
-        urlFn={this.props.server.ledgerURL}
-        {...this.state}
-        {...this.props}
-      />
-    )
+  render () {
+    return this.state.seq === 0
+      ? null
+      : (
+        <Ledger
+          urlFn={this.props.server.ledgerURL}
+          {...this.state}
+          {...this.props}
+        />
+        )
   }
 }
 

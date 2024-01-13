@@ -1,35 +1,29 @@
 import React from 'react'
 import Table from 'react-bootstrap/lib/Table'
-import {Link} from 'react-router-dom'
-import {FormattedTime, FormattedDate, FormattedMessage} from 'react-intl'
+import { Link } from 'react-router-dom'
+import { FormattedTime, FormattedDate, FormattedMessage } from 'react-intl'
 
-import {withServer} from './shared/HOCs'
-import {isDefInt, shortHash} from '../lib/utils'
-import {withSpinner} from './shared/Spinner'
+import { withServer } from './shared/HOCs'
+import { isDefInt, shortHash } from '../lib/utils'
+import { withSpinner } from './shared/Spinner'
 
 class AccountRow extends React.Component {
-  render() {
+  render () {
     const txHash = this.props.hash
     return (
       <tr>
         <td>
           <span title={txHash}>
-            <Link to={`/tx/${txHash}`}>
-              {shortHash(txHash)}
-            </Link>
+            <Link to={`/tx/${txHash}`}>{shortHash(txHash)}</Link>
           </span>
         </td>
         <td>
           <FormattedDate value={this.props.time} />
           <FormattedTime value={this.props.time} />
         </td>
+        <td>{this.props.value}</td>
         <td>
-          {this.props.value}
-        </td>
-        <td>
-          <Link to={`/block/${this.props.ledger}`}>
-            {this.props.ledger}
-          </Link>
+          <Link to={`/block/${this.props.ledger}`}>{this.props.ledger}</Link>
         </td>
       </tr>
     )
@@ -37,30 +31,28 @@ class AccountRow extends React.Component {
 }
 
 class AccountTable extends React.Component {
-  renderRow(account) {
+  renderRow (account) {
     return <AccountRow key={account.hash} {...account} />
   }
 
-  render() {
+  render () {
     return (
-      <Table id="Account-table">
+      <Table id='Account-table'>
         <thead>
           <tr>
             <th>#</th>
             <th>
-              <FormattedMessage id="time" />
+              <FormattedMessage id='time' />
             </th>
             <th>
-              <FormattedMessage id="value" />
+              <FormattedMessage id='value' />
             </th>
             <th>
-              <FormattedMessage id="ledger" />
+              <FormattedMessage id='ledger' />
             </th>
           </tr>
         </thead>
-        <tbody>
-          {this.props.accounts.map(this.renderRow)}
-        </tbody>
+        <tbody>{this.props.accounts.map(this.renderRow)}</tbody>
       </Table>
     )
   }
@@ -71,19 +63,19 @@ class AccountTableContainer extends React.Component {
 
   state = {
     accounts: [],
-    isLoading: true,
+    isLoading: true
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.update()
     this.timerID = setInterval(() => this.update(), 15000)
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     clearInterval(this.timerID)
   }
 
-  accounts() {
+  accounts () {
     const limit = isDefInt(this.props, 'limit')
       ? this.props.limit
       : this.DEFAULT_LIMIT
@@ -93,19 +85,19 @@ class AccountTableContainer extends React.Component {
     return builder.call()
   }
 
-  update() {
+  update () {
     this.props.server
       .accounts()
-      .then(result => {
-        this.setState({accounts: result.records.accounts, isLoading: false})
+      .then((result) => {
+        this.setState({ accounts: result.records.accounts, isLoading: false })
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(`Failed to fetch Accounts: [${err}]`)
-        this.setState({accounts: [], isLoading: false})
+        this.setState({ accounts: [], isLoading: false })
       })
   }
 
-  render() {
+  render () {
     return <WrappedAccountTable accounts={this.state.accounts} />
   }
 }

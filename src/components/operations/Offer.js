@@ -1,12 +1,16 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
 import AccountLink from '../shared/AccountLink'
 import Asset from '../shared/Asset'
 import FormattedAmount from '../shared/FormattedAmount'
 
-const BuyingAsset = ({buyingAssetCode, buyingAssetIssuer, buyingAssetType}) => (
+const BuyingAsset = ({
+  buyingAssetCode,
+  buyingAssetIssuer,
+  buyingAssetType
+}) => (
   <Asset
     code={buyingAssetCode}
     issuer={buyingAssetIssuer}
@@ -17,7 +21,7 @@ const BuyingAsset = ({buyingAssetCode, buyingAssetIssuer, buyingAssetType}) => (
 const SellingAsset = ({
   sellingAssetCode,
   sellingAssetIssuer,
-  sellingAssetType,
+  sellingAssetType
 }) => (
   <Asset
     code={sellingAssetCode}
@@ -34,8 +38,8 @@ const offerType = (amount, offerId) => {
   return type
 }
 
-const Offer = props => {
-  const {amount, offerId, price} = props
+const Offer = (props) => {
+  const { amount, offerId, price } = props
   const msgId = `operation.offer.${offerType(amount, offerId)}`
   return (
     <FormattedMessage
@@ -44,16 +48,16 @@ const Offer = props => {
         amount: <FormattedAmount amount={amount} />,
         buyingAsset: <BuyingAsset {...props} />,
         price: <FormattedAmount amount={price} />,
-        sellingAsset: <SellingAsset {...props} />,
+        sellingAsset: <SellingAsset {...props} />
       }}
     />
   )
 }
 
-const OfferRow = props => (
-  <tr key={props.id} className="trade">
+const OfferRow = (props) => (
+  <tr key={props.id} className='trade'>
     {props.showSeller === true && (
-      <td className="account-badge">
+      <td className='account-badge'>
         <AccountLink account={props.seller} />
       </td>
     )}
@@ -79,7 +83,7 @@ Offer.propTypes = {
   sellingAssetCode: PropTypes.string,
   sellingAssetIssuer: PropTypes.string,
   sellingAssetType: PropTypes.string.isRequired,
-  showSeller: PropTypes.bool,
+  showSeller: PropTypes.bool
 }
 
-export {Offer as default, OfferRow}
+export { Offer as default, OfferRow }

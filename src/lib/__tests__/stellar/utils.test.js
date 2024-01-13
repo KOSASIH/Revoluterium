@@ -3,7 +3,7 @@ import {
   isMuxedAddress,
   isPublicKey,
   isTxHash,
-  stroopsToLumens,
+  stroopsToLumens
 } from '../../stellar/utils'
 
 it('stroopsToLumens converts correctly', () => {
@@ -52,7 +52,9 @@ it('isTxHash identifies a valid transaction hash', () => {
   expect(isTxHash('ddefd')).toBe(false)
 
   expect(
-    isTxHash('ddeff3d3b8455f8173ef4d63e6650625734207fd351d2b9eeeaf0e38ffe1064b')
+    isTxHash(
+      'ddeff3d3b8455f8173ef4d63e6650625734207fd351d2b9eeeaf0e38ffe1064b'
+    )
   ).toBe(true)
 })
 
@@ -63,7 +65,9 @@ it('isMuxedAddress identifies a valid key', () => {
 
   // same length as valid key and looks valid but is not
   expect(
-    isMuxedAddress('MDZ464OWNGEL4X2DE6JPLEARO2WJ4AGCBN3XM7E4ZSLPHRBV6AZB6AAAAAAAAAAAAGW4MX')
+    isMuxedAddress(
+      'MDZ464OWNGEL4X2DE6JPLEARO2WJ4AGCBN3XM7E4ZSLPHRBV6AZB6AAAAAAAAAAAAGW4MX'
+    )
   ).toBe(false)
 
   // valid public key is not a valid mutex address
@@ -73,7 +77,8 @@ it('isMuxedAddress identifies a valid key', () => {
 
   // valid
   expect(
-    isMuxedAddress('MDZ464OWNGEL4X2DE6JPLEARO2WJ4AGCBN3XM7E4ZSLPHRBV6AZB6AAAAAAAAAAAAGW4M')
+    isMuxedAddress(
+      'MDZ464OWNGEL4X2DE6JPLEARO2WJ4AGCBN3XM7E4ZSLPHRBV6AZB6AAAAAAAAAAAAGW4M'
+    )
   ).toBe(true)
 })
-

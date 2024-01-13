@@ -1,73 +1,73 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
+import { compose } from 'recompose'
 import Table from 'react-bootstrap/lib/Table'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 import filter from 'lodash/filter'
 import mapKeys from 'lodash/mapKeys'
 import camelCase from 'lodash/camelCase'
 
-import {withDataFetchingContainer} from './shared/DataFetchingContainer'
-import {withDataFetchingAllContainer} from './shared/DataFetchingAllContainer'
-import {withPaging} from './shared/Paging'
-import {withSpinner} from './shared/Spinner'
-import {default as Operation, opTypes} from './operations/Operation'
-import {filterFor} from './shared/OperationType'
+import { withDataFetchingContainer } from './shared/DataFetchingContainer'
+import { withDataFetchingAllContainer } from './shared/DataFetchingAllContainer'
+import { withPaging } from './shared/Paging'
+import { withSpinner } from './shared/Spinner'
+import { default as Operation, opTypes } from './operations/Operation'
+import { filterFor } from './shared/OperationType'
 import CSVExport from './shared/CSVExport'
 
-const filterFn = event => {
+const filterFn = (event) => {
   filterFor(event.target.value)
 }
 
-const OperationTable = props => (
+const OperationTable = (props) => (
   <div>
     {props.compact === false && (
-      <div className="filter">
-        <FormattedMessage id="filter.for-operation-type" />:
+      <div className='filter'>
+        <FormattedMessage id='filter.for-operation-type' />:
         <select onChange={filterFn} defaultValue={getOperationTypeFilter()}>
           <option />
-          {opTypes.map(type => (
+          {opTypes.map((type) => (
             <option key={type}>{type}</option>
           ))}
         </select>
         <br />
         {getOperationTypeFilter() && this.possiblyMoreDataAvailable && (
-          <span className="disclaimer">
-            <FormattedMessage id="filter.more-data-possibly-available" />
+          <span className='disclaimer'>
+            <FormattedMessage id='filter.more-data-possibly-available' />
           </span>
         )}
       </div>
     )}
     <Table
-      id="operation-table"
-      className="table-striped table-hover table-condensed"
+      id='operation-table'
+      className='table-striped table-hover table-condensed'
     >
       <thead>
         <tr>
           <th>
-            <FormattedMessage id="account" />
+            <FormattedMessage id='account' />
           </th>
           <th>
-            <FormattedMessage id="operation" />
+            <FormattedMessage id='operation' />
           </th>
           {props.compact === false && (
             <th>
-              <FormattedMessage id="transaction" />
+              <FormattedMessage id='transaction' />
             </th>
           )}
           {props.compact === false && (
             <th>
-              <FormattedMessage id="type" />
+              <FormattedMessage id='type' />
             </th>
           )}
           <th>
-            <FormattedMessage id="time" />
+            <FormattedMessage id='time' />
           </th>
         </tr>
       </thead>
       <tbody>
-        {props.records.map(op => (
+        {props.records.map((op) => (
           <Operation
             key={op.id}
             compact={props.compact}
@@ -80,7 +80,7 @@ const OperationTable = props => (
       </tbody>
     </Table>
     {!props.noCSVExport && (
-      <div className="text-center" id="csv-export">
+      <div className='text-center' id='csv-export'>
         <ExportToCSVComponent {...props} />
       </div>
     )}
@@ -92,15 +92,15 @@ OperationTable.propTypes = {
   parentRenderTimestamp: PropTypes.number,
   records: PropTypes.array.isRequired,
   server: PropTypes.object.isRequired,
-  is_transaction: PropTypes.bool,
+  is_transaction: PropTypes.bool
 }
 
-const rspRecToPropsRec = record => {
+const rspRecToPropsRec = (record) => {
   record.time = record.created_at
   return mapKeys(record, (v, k) => camelCase(k))
 }
 
-const fetchRecords = ({account, limit, server, tx, type}) => {
+const fetchRecords = ({ account, limit, server, tx, type }) => {
   const getBuilder = () => {
     const builder = server.operations()
     if (tx) builder.forTransaction(tx)
@@ -133,7 +133,7 @@ const getOperationTypeFilter = () => {
   }
 }
 
-let cursors = []
+const cursors = []
 let currentCursor = 0
 const fetchUntilEnoughDataToDisplay = (
   getBuilder,
@@ -145,10 +145,10 @@ const fetchUntilEnoughDataToDisplay = (
 ) => {
   const builder = cursor ? getBuilder().cursor(cursor) : getBuilder()
 
-  return builder.call().then(rsp => {
+  return builder.call().then((rsp) => {
     const records = rsp.records
     totalFetchedRecs += records.length
-    const filteredRecs = filter(records, rec => rec.type === filterForType)
+    const filteredRecs = filter(records, (rec) => rec.type === filterForType)
 
     if (!accumulatedRsp) {
       accumulatedRsp = rsp
@@ -158,7 +158,7 @@ const fetchUntilEnoughDataToDisplay = (
     accumulatedRsp.records = accumulatedRsp.records.concat(filteredRecs)
 
     const index = records.length - 1
-    let cursor =
+    const cursor =
       records.length > 0 && index >= 0 ? records[index].paging_token : 0
 
     // recursively request more until limit is reached
@@ -217,7 +217,7 @@ const fetchUntilEnoughDataToDisplay = (
       accumulatedRsp.prev = (...props) => {
         if (records.length === 0) return Promise.resolve(rsp)
 
-        let oldCursor = cursors.pop()
+        const oldCursor = cursors.pop()
         return fetchUntilEnoughDataToDisplay(
           getBuilder,
           filterForType,
@@ -233,11 +233,10 @@ const fetchUntilEnoughDataToDisplay = (
   })
 }
 
-const callBuilder = props => props.server.operations()
+const callBuilder = (props) => props.server.operations()
 
-const ExportToCSVComponent = withDataFetchingAllContainer(fetchRecords)(
-  CSVExport
-)
+const ExportToCSVComponent =
+  withDataFetchingAllContainer(fetchRecords)(CSVExport)
 
 const enhance = compose(
   withPaging(),

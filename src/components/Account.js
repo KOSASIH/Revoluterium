@@ -7,16 +7,20 @@ import Row from 'react-bootstrap/lib/Row'
 import Table from 'react-bootstrap/lib/Table'
 import Tab from 'react-bootstrap/lib/Tab'
 import Tabs from 'react-bootstrap/lib/Tabs'
-import {injectIntl, FormattedMessage} from 'react-intl'
-import {FederationServer, MuxedAccount, StrKey} from 'stellar-sdk'
+import { injectIntl, FormattedMessage } from 'react-intl'
+import { FederationServer, MuxedAccount, StrKey } from 'stellar-sdk'
 import has from 'lodash/has'
 
 import knownAccounts from '../data/known_accounts'
-import {isFederatedAddress, isMuxedAddress, isPublicKey} from '../lib/stellar/utils'
-import {base64Decode, handleFetchDataFailure, setTitle} from '../lib/utils'
-import {withServer} from './shared/HOCs'
-import {withSpinner} from './shared/Spinner'
-import {titleWithJSONButton} from './shared/TitleWithJSONButton'
+import {
+  isFederatedAddress,
+  isMuxedAddress,
+  isPublicKey
+} from '../lib/stellar/utils'
+import { base64Decode, handleFetchDataFailure, setTitle } from '../lib/utils'
+import { withServer } from './shared/HOCs'
+import { withSpinner } from './shared/Spinner'
+import { titleWithJSONButton } from './shared/TitleWithJSONButton'
 
 import AccountLink from './shared/AccountLink'
 import Asset from './shared/Asset'
@@ -30,31 +34,32 @@ import PaymentTable from './PaymentTable'
 import TradeTable from './TradeTable'
 import TransactionTable from './TransactionTableContainer'
 
-const NameValueTable = ({data, decodeValue = false}) => {
-  if (!data || Object.keys(data).length === 0)
-    return <div style={{marginTop: 20, marginBottom: 20}}>No Data</div>
+const NameValueTable = ({ data, decodeValue = false }) => {
+  if (!data || Object.keys(data).length === 0) {
+    return <div style={{ marginTop: 20, marginBottom: 20 }}>No Data</div>
+  }
   return (
     <Table>
       <thead>
         <tr>
           <th>
-            <FormattedMessage id="name" />
+            <FormattedMessage id='name' />
           </th>
           <th>
-            <FormattedMessage id="value" />
+            <FormattedMessage id='value' />
           </th>
         </tr>
       </thead>
       <tbody>
-        {Object.keys(data).map(key => (
+        {Object.keys(data).map((key) => (
           <tr key={key}>
             <td>{key}</td>
             <td>
               {typeof data[key] === 'boolean'
                 ? data[key].toString()
                 : decodeValue
-                ? base64Decode(data[key])
-                : data[key]}
+                  ? base64Decode(data[key])
+                  : data[key]}
             </td>
           </tr>
         ))}
@@ -63,7 +68,7 @@ const NameValueTable = ({data, decodeValue = false}) => {
   )
 }
 
-const balanceRow = bal => (
+const balanceRow = (bal) => (
   <tr key={bal.asset_code ? `${bal.asset_code}-${bal.asset_issuer}` : 'Test-π'}>
     <td>
       <Asset
@@ -73,28 +78,28 @@ const balanceRow = bal => (
       />
     </td>
     <td>
-      <span className="break">
+      <span className='break'>
         <FormattedAmount amount={bal.balance} />
       </span>
     </td>
     <td>
-      <span className="break">{bal.limit}</span>
+      <span className='break'>{bal.limit}</span>
     </td>
   </tr>
 )
 
-const Balances = props => (
+const Balances = (props) => (
   <Table>
     <thead>
       <tr>
         <th>
-          <FormattedMessage id="asset" />
+          <FormattedMessage id='asset' />
         </th>
         <th>
-          <FormattedMessage id="balance" />
+          <FormattedMessage id='balance' />
         </th>
         <th>
-          <FormattedMessage id="limit" />
+          <FormattedMessage id='limit' />
         </th>
       </tr>
     </thead>
@@ -102,18 +107,18 @@ const Balances = props => (
   </Table>
 )
 
-const Thresholds = ({thresholds}) => (
+const Thresholds = ({ thresholds }) => (
   <Table>
     <thead>
       <tr>
         <th>
-          <FormattedMessage id="threshold.low" />
+          <FormattedMessage id='threshold.low' />
         </th>
         <th>
-          <FormattedMessage id="threshold.medium" />
+          <FormattedMessage id='threshold.medium' />
         </th>
         <th>
-          <FormattedMessage id="threshold.high" />
+          <FormattedMessage id='threshold.high' />
         </th>
       </tr>
     </thead>
@@ -127,23 +132,23 @@ const Thresholds = ({thresholds}) => (
   </Table>
 )
 
-const Signers = props => (
+const Signers = (props) => (
   <Table>
     <thead>
       <tr>
         <th>
-          <FormattedMessage id="key" />
+          <FormattedMessage id='key' />
         </th>
         <th>
-          <FormattedMessage id="weight" />
+          <FormattedMessage id='weight' />
         </th>
         <th>
-          <FormattedMessage id="type" />
+          <FormattedMessage id='type' />
         </th>
       </tr>
     </thead>
     <tbody>
-      {props.signers.map(signer => (
+      {props.signers.map((signer) => (
         <tr key={signer.key}>
           <td>
             {signer.type === 'ed25519_public_key' && (
@@ -162,92 +167,91 @@ const Signers = props => (
   </Table>
 )
 
-const MuxedAccountInfoPanel = ({
-  address,
-}) => {
+const MuxedAccountInfoPanel = ({ address }) => {
   return (
     <Panel>
-      <Glyphicon
-        glyph="info-sign"
-        onClick={this.handleClick}
-      />
+      <Glyphicon glyph='info-sign' onClick={this.handleClick} />
+      &nbsp; NOTE: This view shows the base account of the multiplexed account
       &nbsp;
-      NOTE: This view shows the base account of the multiplexed account
-      &nbsp;
-      <span style={{color: 'white', overflowWrap: 'break-word'}}>
+      <span style={{ color: 'white', overflowWrap: 'break-word' }}>
         {address}
       </span>
     </Panel>
   )
 }
 
-const Flags = ({flags}) => <NameValueTable data={flags} />
-const Data = ({data}) => <NameValueTable data={data} decodeValue />
+const Flags = ({ flags }) => <NameValueTable data={flags} />
+const Data = ({ data }) => <NameValueTable data={data} decodeValue />
 
 const AccountSummaryPanel = ({
   account: a,
   accountUrl,
   federatedAddress,
   formatMessageFn,
-  knownAccounts,
+  knownAccounts
 }) => {
   setTitle(`Account ${a.id}`)
 
   const header = titleWithJSONButton(
-    formatMessageFn({id: 'account'}),
+    formatMessageFn({ id: 'account' }),
     accountUrl
   )
 
   return (
     <Panel header={header}>
-      <Grid style={{paddingLeft: 0}}>
+      <Grid style={{ paddingLeft: 0 }}>
         <Row>
           <Col md={10}>
             <Row>
               <Col md={3}>
-                <FormattedMessage id="key.public" />:
+                <FormattedMessage id='key.public' />:
               </Col>
               <Col md={9}>
-                <span className="break" style={{color: '#333'}}>{a.id}</span>
+                <span className='break' style={{ color: '#333' }}>
+                  {a.id}
+                </span>
                 <ClipboardCopy text={a.id} />
               </Col>
             </Row>
             {federatedAddress && (
               <Row>
                 <Col md={3}>
-                  <FormattedMessage id="stellar.address" />:
+                  <FormattedMessage id='stellar.address' />:
                 </Col>
                 <Col md={9}>{federatedAddress}</Col>
               </Row>
             )}
             <Row>
               <Col md={3}>
-                <FormattedMessage id="home.domain" />:
+                <FormattedMessage id='home.domain' />:
               </Col>
               <Col md={9}>
-                <a href={`https://${a.home_domain}`} target="_blank">
+                <a
+                  href={`https://${a.home_domain}`}
+                  target='_blank'
+                  rel='noreferrer'
+                >
                   {a.home_domain}
                 </a>
               </Col>
             </Row>
             <Row>
               <Col md={3}>
-                <FormattedMessage id="subentry.count" />:
+                <FormattedMessage id='subentry.count' />:
               </Col>
               <Col md={9}>{a.subentry_count}</Col>
             </Row>
           </Col>
-          {has(knownAccounts, a.id) &&
-            knownAccounts[a.id].logo && (
-              <Col md={2}>
-                <div style={{marginBottom: 10}}>
-                  <Logo
-                    type={knownAccounts[a.id].type}
-                    name={knownAccounts[a.id].logo}
-                  />
-                </div>
-              </Col>
-            )}
+          {has(knownAccounts, a.id) && knownAccounts[a.id].logo && (
+            <Col md={2}>
+              <div style={{ marginBottom: 10 }}>
+                <Logo
+                  type={knownAccounts[a.id].type}
+                  name={knownAccounts[a.id].logo}
+                />
+              </div>
+            </Col>
+          )}
         </Row>
       </Grid>
     </Panel>
@@ -257,52 +261,52 @@ const AccountSummaryPanel = ({
 class Account extends React.Component {
   state = {
     key: 'balances',
-    renderEffects: false,
+    renderEffects: false
   }
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.handleURIHash = this.handleURIHash.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
     this.setNewState = this.setNewState.bind(this)
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.handleURIHash()
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.handleURIHash()
   }
 
-  setNewState(tabKey) {
-    const newState = {key: tabKey}
+  setNewState (tabKey) {
+    const newState = { key: tabKey }
     if (tabKey === 'effects') newState.renderEffects = true
     this.setState(newState)
   }
 
-  handleURIHash() {
+  handleURIHash () {
     if (has(window.location, 'hash') && window.location.hash.length > 1) {
       const tab = window.location.hash.substring(1) // string after '#'
       this.setNewState(tab)
     }
   }
 
-  handleSelect(key) {
+  handleSelect (key) {
     window.location.hash = `#${key}`
     this.setNewState(key)
   }
 
-  render() {
-    const {formatMessage} = this.props.intl
+  render () {
+    const { formatMessage } = this.props.intl
     const a = this.props.account
     return (
       <Grid>
-        {this.props.muxedAddress && 
-        <Row>
-          <MuxedAccountInfoPanel address={this.props.muxedAddress}/>
-        </Row>
-        }
+        {this.props.muxedAddress && (
+          <Row>
+            <MuxedAccountInfoPanel address={this.props.muxedAddress} />
+          </Row>
+        )}
         <Row>
           <AccountSummaryPanel
             account={a}
@@ -314,15 +318,15 @@ class Account extends React.Component {
         </Row>
         <Row>
           <Tabs
-            id="account-tabs"
+            id='account-tabs'
             activeKey={this.state.key}
             onSelect={this.handleSelect}
-            style={{border: '1px solid #ddd', borderRadius: 4}}
+            style={{ border: '1px solid #ddd', borderRadius: 4 }}
           >
-            <Tab eventKey="balances" title={formatMessage({id: 'balances'})}>
+            <Tab eventKey='balances' title={formatMessage({ id: 'balances' })}>
               <Balances balances={a.balances} />
             </Tab>
-            <Tab eventKey="payments" title={formatMessage({id: 'payments'})}>
+            <Tab eventKey='payments' title={formatMessage({ id: 'payments' })}>
               <PaymentTable
                 key={a.id}
                 account={a.id}
@@ -331,7 +335,7 @@ class Account extends React.Component {
                 usePaging
               />
             </Tab>
-            <Tab eventKey="offers" title={formatMessage({id: 'offers'})}>
+            <Tab eventKey='offers' title={formatMessage({ id: 'offers' })}>
               <OfferTable
                 key={a.id}
                 account={a.id}
@@ -341,24 +345,26 @@ class Account extends React.Component {
                 usePaging
               />
             </Tab>
-            <Tab eventKey="trades" title={formatMessage({id: 'trades'})}>
+            <Tab eventKey='trades' title={formatMessage({ id: 'trades' })}>
               <TradeTable key={a.id} account={a.id} limit={20} usePaging />
             </Tab>
-            <Tab eventKey="effects" title={formatMessage({id: 'effects'})}>
-              {// OPTIMISATION: render on focus only as it hits the server for every effect
-              this.state.renderEffects === true && (
-                <EffectTable
-                  key={a.id}
-                  account={a.id}
-                  limit={20}
-                  showAccount={false}
-                  usePaging
-                />
-              )}
+            <Tab eventKey='effects' title={formatMessage({ id: 'effects' })}>
+              {
+                // OPTIMISATION: render on focus only as it hits the server for every effect
+                this.state.renderEffects === true && (
+                  <EffectTable
+                    key={a.id}
+                    account={a.id}
+                    limit={20}
+                    showAccount={false}
+                    usePaging
+                  />
+                )
+              }
             </Tab>
             <Tab
-              eventKey="operations"
-              title={formatMessage({id: 'operations'})}
+              eventKey='operations'
+              title={formatMessage({ id: 'operations' })}
             >
               <OperationTable
                 key={a.id}
@@ -369,8 +375,8 @@ class Account extends React.Component {
               />
             </Tab>
             <Tab
-              eventKey="transactions"
-              title={formatMessage({id: 'transactions'})}
+              eventKey='transactions'
+              title={formatMessage({ id: 'transactions' })}
             >
               <TransactionTable
                 key={a.id}
@@ -381,7 +387,7 @@ class Account extends React.Component {
                 usePaging
               />
             </Tab>
-            <Tab eventKey="signing" title={formatMessage({id: 'signing'})}>
+            <Tab eventKey='signing' title={formatMessage({ id: 'signing' })}>
               <Row>
                 <Col md={7}>
                   <Signers signers={a.signers} />
@@ -389,19 +395,19 @@ class Account extends React.Component {
                 <Col
                   md={3}
                   mdOffset={1}
-                  style={{border: '1px solid white', marginTop: 30}}
+                  style={{ border: '1px solid white', marginTop: 30 }}
                 >
                   <h4>
-                    <FormattedMessage id="thresholds" />
+                    <FormattedMessage id='thresholds' />
                   </h4>
                   <Thresholds thresholds={a.thresholds} />
                 </Col>
               </Row>
             </Tab>
-            <Tab eventKey="flags" title={formatMessage({id: 'flags'})}>
+            <Tab eventKey='flags' title={formatMessage({ id: 'flags' })}>
               <Flags flags={a.flags} />
             </Tab>
-            <Tab eventKey="data" title={formatMessage({id: 'data'})}>
+            <Tab eventKey='data' title={formatMessage({ id: 'data' })}>
               <Data data={a.data_attr} />
             </Tab>
           </Tabs>
@@ -417,18 +423,18 @@ class AccountContainer extends React.Component {
     isLoading: true,
     account: null,
     federatedAddress: null,
-    muxedAddress: null,
+    muxedAddress: null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.loadAccount(this.props.match.params.id)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     this.loadAccount(nextProps.match.params.id)
   }
 
-  loadAccount(accountId) {
+  loadAccount (accountId) {
     if (isPublicKey(accountId)) {
       this.loadAccountByKey(accountId)
     } else if (isFederatedAddress(accountId)) {
@@ -442,43 +448,41 @@ class AccountContainer extends React.Component {
     }
   }
 
-  loadAccountByKey(accountId) {
-    this.loadAccountFromServer(accountId).then(res => {
-      this.setState({account: res, isLoading: false})
-      return null
-    })
-    .catch(handleFetchDataFailure(accountId))
+  loadAccountByKey (accountId) {
+    this.loadAccountFromServer(accountId)
+      .then((res) => {
+        this.setState({ account: res, isLoading: false })
+        return null
+      })
+      .catch(handleFetchDataFailure(accountId))
   }
 
-  loadAccountByFederatedAddress(address) {
+  loadAccountByFederatedAddress (address) {
     const [name, domain] = address.split('*')
     FederationServer.createForDomain(domain)
-      .then(fed => fed.resolveAddress(name))
-      .then(acc => this.loadAccountFromServer(acc.account_id))
-      .then(account => {
-        this.setState({account, federatedAddress: address, isLoading: false})
+      .then((fed) => fed.resolveAddress(name))
+      .then((acc) => this.loadAccountFromServer(acc.account_id))
+      .then((account) => {
+        this.setState({ account, federatedAddress: address, isLoading: false })
         return null
       })
       .catch(handleFetchDataFailure(address))
   }
 
-  loadAccountByMuxedAddress(address) {
+  loadAccountByMuxedAddress (address) {
     const muxedAccount = MuxedAccount.fromAddress(address, '1')
     const publicAddress = muxedAccount.account.accountId()
-    this.loadAccountFromServer(publicAddress).then(account => { 
-      this.setState({account, muxedAddress: address, isLoading: false})
+    this.loadAccountFromServer(publicAddress).then((account) => {
+      this.setState({ account, muxedAddress: address, isLoading: false })
       return null
     })
   }
 
-  loadAccountFromServer(accountId) {
-    return this.props.server
-      .accounts()
-      .accountId(accountId)
-      .call()
+  loadAccountFromServer (accountId) {
+    return this.props.server.accounts().accountId(accountId).call()
   }
 
-  render() {
+  render () {
     return (
       <AccountWithSpinner
         isLoading={this.state.isLoading}

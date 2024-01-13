@@ -1,51 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {compose} from 'recompose'
+import { compose } from 'recompose'
 import Table from 'react-bootstrap/lib/Table'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import filter from 'lodash/filter'
 import mapKeys from 'lodash/mapKeys'
 import camelCase from 'lodash/camelCase'
 
 import Operation from './operations/Operation'
-import {withDataFetchingContainer} from './shared/DataFetchingContainer'
-import {withDataFetchingAllContainer} from './shared/DataFetchingAllContainer'
-import {withPaging} from './shared/Paging'
-import {withSpinner} from './shared/Spinner'
+import { withDataFetchingContainer } from './shared/DataFetchingContainer'
+import { withDataFetchingAllContainer } from './shared/DataFetchingAllContainer'
+import { withPaging } from './shared/Paging'
+import { withSpinner } from './shared/Spinner'
 import CSVExport from './shared/CSVExport'
 
-const PaymentTable = props =>(
+const PaymentTable = (props) => (
   <div>
     <Table
-      id="payment-table"
-      className="table-striped table-hover table-condensed"
+      id='payment-table'
+      className='table-striped table-hover table-condensed'
     >
       <thead>
         <tr>
           <th>
-            <FormattedMessage id="account" />
+            <FormattedMessage id='account' />
           </th>
           <th>
-            <FormattedMessage id="payment" />
+            <FormattedMessage id='payment' />
           </th>
           {props.compact === false && (
-            <th class="block-column">
-              <FormattedMessage id="transaction" />
+            <th class='block-column'>
+              <FormattedMessage id='transaction' />
             </th>
           )}
           {props.compact === false && (
-            <th class="block-column">
-              <FormattedMessage id="type" />
+            <th class='block-column'>
+              <FormattedMessage id='type' />
             </th>
           )}
           <th>
-            <FormattedMessage id="time" />
+            <FormattedMessage id='time' />
           </th>
           <th />
         </tr>
       </thead>
       <tbody>
-        {props.records.map(payment => (
+        {props.records.map((payment) => (
           <Operation
             key={payment.id}
             compact={props.compact}
@@ -56,7 +56,7 @@ const PaymentTable = props =>(
         ))}
       </tbody>
     </Table>
-    <div className="text-center" id="csv-export">
+    <div className='text-center' id='csv-export'>
       <ExportToCSVComponent server={props.server} account={props.account} />
     </div>
   </div>
@@ -66,15 +66,15 @@ PaymentTable.propTypes = {
   compact: PropTypes.bool,
   parentRenderTimestamp: PropTypes.number,
   records: PropTypes.array.isRequired,
-  server: PropTypes.object.isRequired,
+  server: PropTypes.object.isRequired
 }
 
-const rspRecToPropsRec = record => {
+const rspRecToPropsRec = (record) => {
   record.time = record.created_at
   return mapKeys(record, (v, k) => camelCase(k))
 }
 
-const fetchRecords = ({account, tx, limit, server}) => {
+const fetchRecords = ({ account, tx, limit, server }) => {
   const getBuilder = () => {
     const builder = server.payments()
     if (tx) builder.forTransaction(tx)
@@ -96,10 +96,7 @@ const fetchRecords = ({account, tx, limit, server}) => {
     )
   }
   return getBuilder().call()
-
 }
-
-
 
 const getOperationTypeFilter = () => {
   const opTypeFilter = window.location.search.match(/opTypeFilter=([a-z_]*)/)
@@ -108,7 +105,7 @@ const getOperationTypeFilter = () => {
   }
 }
 
-let cursors = []
+const cursors = []
 let currentCursor = 0
 const fetchUntilEnoughDataToDisplay = (
   getBuilder,
@@ -120,10 +117,10 @@ const fetchUntilEnoughDataToDisplay = (
 ) => {
   const builder = cursor ? getBuilder().cursor(cursor) : getBuilder()
 
-  return builder.call().then(rsp => {
+  return builder.call().then((rsp) => {
     const records = rsp.records
     totalFetchedRecs += records.length
-    const filteredRecs = filter(records, rec => rec.type === filterForType)
+    const filteredRecs = filter(records, (rec) => rec.type === filterForType)
 
     if (!accumulatedRsp) {
       accumulatedRsp = rsp
@@ -133,7 +130,7 @@ const fetchUntilEnoughDataToDisplay = (
     accumulatedRsp.records = accumulatedRsp.records.concat(filteredRecs)
 
     const index = records.length - 1
-    let cursor =
+    const cursor =
       records.length > 0 && index >= 0 ? records[index].paging_token : 0
 
     // recursively request more until limit is reached
@@ -192,7 +189,7 @@ const fetchUntilEnoughDataToDisplay = (
       accumulatedRsp.prev = (...props) => {
         if (records.length === 0) return Promise.resolve(rsp)
 
-        let oldCursor = cursors.pop()
+        const oldCursor = cursors.pop()
         return fetchUntilEnoughDataToDisplay(
           getBuilder,
           filterForType,
@@ -207,11 +204,10 @@ const fetchUntilEnoughDataToDisplay = (
     }
   })
 }
-const callBuilder = props => props.server.payments()
+const callBuilder = (props) => props.server.payments()
 
-const ExportToCSVComponent = withDataFetchingAllContainer(fetchRecords)(
-  CSVExport
-)
+const ExportToCSVComponent =
+  withDataFetchingAllContainer(fetchRecords)(CSVExport)
 
 const enhance = compose(
   withPaging(),

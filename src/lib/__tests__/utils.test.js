@@ -4,7 +4,7 @@ import {
   formatAmount,
   isDefInt,
   shortAddress,
-  shortHash,
+  shortHash
 } from '../utils'
 
 it('assetKeyToIssuer extracts correctly', () => {
@@ -27,20 +27,18 @@ it('isDefInt checks for defined int correctly', () => {
 
   expect(isDefInt({})).toBe(false)
   expect(isDefInt({}, 'x')).toBe(false)
-  expect(isDefInt({y: 1}, 'x')).toBe(false)
+  expect(isDefInt({ y: 1 }, 'x')).toBe(false)
 
-  expect(isDefInt({x: undefined}, 'x')).toBe(false)
-  expect(isDefInt({x: 'string'}, 'x')).toBe(false)
+  expect(isDefInt({ x: undefined }, 'x')).toBe(false)
+  expect(isDefInt({ x: 'string' }, 'x')).toBe(false)
 
-  expect(isDefInt({x: 1}, 'x')).toBe(true)
-  expect(isDefInt({x: 12345678901234567890}, 'x')).toBe(true)
+  expect(isDefInt({ x: 1 }, 'x')).toBe(true)
+  expect(isDefInt({ x: 12345678901234567890 }, 'x')).toBe(true)
 })
 
 it('shortAddress shortens address', () => {
   expect(
-    shortAddress(
-      'GDZ464OWNGEL4X2DE6JPLEARO2WJ4AGCBN3XM7E4ZSLPHRBV6AZB6CER'
-    )
+    shortAddress('GDZ464OWNGEL4X2DE6JPLEARO2WJ4AGCBN3XM7E4ZSLPHRBV6AZB6CER')
   ).toBe('GDZ4')
   expect(
     shortAddress(
@@ -63,7 +61,7 @@ it('base64Decode decodes', () => {
 })
 
 it('formatAmount strips trailling 0s after decimal only', () => {
-  const expectUnchanged = amount => expect(formatAmount(amount)).toBe(amount)
+  const expectUnchanged = (amount) => expect(formatAmount(amount)).toBe(amount)
 
   expectUnchanged('0')
   expectUnchanged('1')

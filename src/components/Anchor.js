@@ -3,7 +3,7 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Panel from 'react-bootstrap/lib/Panel'
 import Row from 'react-bootstrap/lib/Row'
 import Table from 'react-bootstrap/lib/Table'
-import {injectIntl, FormattedMessage} from 'react-intl'
+import { injectIntl, FormattedMessage } from 'react-intl'
 import has from 'lodash/has'
 
 import AccountLink from './shared/AccountLink'
@@ -12,14 +12,14 @@ import Logo from './shared/Logo'
 import NewWindowIcon from './shared/NewWindowIcon'
 import StellarTomlBadge from './shared/StellarTomlBadge'
 
-import {assetKeyToIssuer, setTitle} from '../lib/utils'
+import { assetKeyToIssuer, setTitle } from '../lib/utils'
 
 import directory from '../data/directory'
-const {anchors} = directory
+const { anchors } = directory
 
 class Anchor extends React.Component {
-  render() {
-    const {formatMessage} = this.props.intl
+  render () {
+    const { formatMessage } = this.props.intl
 
     const id = this.props.match.params.id
     const anchor = anchors[id]
@@ -36,8 +36,8 @@ class Anchor extends React.Component {
           <Panel
             header={
               <span>
-                {formatMessage({id: 'anchor'})}{' '}
-                <span className="secondary-heading">{name}</span>
+                {formatMessage({ id: 'anchor' })}{' '}
+                <span className='secondary-heading'>{name}</span>
               </span>
             }
           >
@@ -45,8 +45,8 @@ class Anchor extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <a href={anchor.website} target="_blank">
-                      <Logo name={domain} type="anchor" />
+                    <a href={anchor.website} target='_blank' rel='noreferrer'>
+                      <Logo name={domain} type='anchor' />
                     </a>
                   </td>
                   <td>
@@ -55,13 +55,13 @@ class Anchor extends React.Component {
                         ? anchor.displayName
                         : anchor.name}
                     </div>
-                    <div style={{marginTop: 10}}>
-                      <a href={anchor.website} target="_blank">
+                    <div style={{ marginTop: 10 }}>
+                      <a href={anchor.website} target='_blank' rel='noreferrer'>
                         {anchor.website}
                         <NewWindowIcon />
                       </a>
                     </div>
-                    <div style={{marginTop: 15}}>
+                    <div style={{ marginTop: 15 }}>
                       <StellarTomlBadge domain={domain} />
                     </div>
                   </td>
@@ -71,25 +71,25 @@ class Anchor extends React.Component {
           </Panel>
         </Row>
 
-        <Row style={{marginLeft: 10, marginRight: 10}}>
+        <Row style={{ marginLeft: 10, marginRight: 10 }}>
           <h3>
-            <FormattedMessage id="assets" />
+            <FormattedMessage id='assets' />
           </h3>
           <Table>
             <thead>
               <tr>
                 <th>
-                  <FormattedMessage id="code" />
+                  <FormattedMessage id='code' />
                 </th>
                 <th>
-                  <FormattedMessage id="issuer" />
+                  <FormattedMessage id='issuer' />
                 </th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(anchor.assets)
                 .sort()
-                .map(code => {
+                .map((code) => {
                   const issuer = assetKeyToIssuer(anchor.assets[code])
                   return (
                     <tr key={code}>

@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {shortHash} from '../../lib/utils'
+import { shortHash } from '../../lib/utils'
 
 const filterFor = (type) => {
-  window.location.href = window.location.pathname + '?opTypeFilter=' + type + window.location.hash
+  window.location.href =
+    window.location.pathname + '?opTypeFilter=' + type + window.location.hash
 }
 
-const OperationType = ({type, compact = true}) => {
+const OperationType = ({ type, compact = true }) => {
   const hashLabel = compact ? shortHash(type) : type
   const className = !compact ? 'monospace' : ''
   const fn = (event) => {
@@ -15,13 +16,15 @@ const OperationType = ({type, compact = true}) => {
   }
   return (
     <span title={type} className={className}>
-      <a href="/" onClick={fn}>{hashLabel}</a>
+      <a href='/' onClick={fn}>
+        {hashLabel}
+      </a>
     </span>
   )
 }
 OperationType.propTypes = {
   type: PropTypes.string.isRequired,
-  compact: PropTypes.bool,
+  compact: PropTypes.bool
 }
 
-export {OperationType as default, filterFor}
+export { OperationType as default, filterFor }
