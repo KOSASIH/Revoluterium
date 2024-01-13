@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import {shortAddress} from '../../lib/utils'
+import { shortAddress } from '../../lib/utils'
 
 import AccountLink from '../shared/AccountLink'
 import JSONButton from '../shared/JSONButton'
@@ -38,25 +38,31 @@ const opTypeComponentMap = {
   manage_buy_offer: Offer,
   manage_sell_offer: Offer,
   manage_offer: Offer, // < Protocol 11
-  
+
   path_payment_strict_send: PathPayment,
   path_payment_strict_receive: PathPayment,
-  path_payment: PathPayment,  // < Protocol 12
-  
+  path_payment: PathPayment, // < Protocol 12
+
   payment: Payment,
-  set_options: SetOptions,
+  set_options: SetOptions
 }
 
 const opTypes = Object.keys(opTypeComponentMap)
 
-const SubOperation = ({op}) => {
+const SubOperation = ({ op }) => {
   const SubOpComponent = opTypeComponentMap[op.type] || Unrecognized
   return <SubOpComponent {...op} />
 }
 
-const Operation = ({compact, op, opURLFn, parentRenderTimestamp, is_transaction}) => {
+const Operation = ({
+  compact,
+  op,
+  opURLFn,
+  parentRenderTimestamp,
+  is_transaction
+}) => {
   let opAccount
-  
+
   if (op.fromMuxed) {
     opAccount = op.fromMuxed
   } else if (op.from) {
@@ -68,33 +74,31 @@ const Operation = ({compact, op, opURLFn, parentRenderTimestamp, is_transaction}
   }
 
   const acc =
-    op.type !== 'account_merge' ? (
-      <AccountLink account={opAccount} />
-    ) : (
-      <span title={opAccount}>{shortAddress(opAccount)}</span>
-    )
+    op.type !== 'account_merge'
+      ? (
+        <AccountLink account={opAccount} />
+        )
+      : (
+        <span title={opAccount}>{shortAddress(opAccount)}</span>
+        )
 
   return (
-    <tr key={op.id} className="operation">
-      <td className="account-badge">{acc}</td>
+    <tr key={op.id} className='operation'>
+      <td className='account-badge'>{acc}</td>
       <td>
         <SubOperation op={op} />
-
       </td>
       {compact === false && (
-        <td class = "block-column">
-          <TransactionHash hash={op.transactionHash} compact={true} />
+        <td class='block-column'>
+          <TransactionHash hash={op.transactionHash} compact />
         </td>
       )}
       {compact === false && (
-        <td class = "block-column">
-          <OperationType
-            type={op.type}
-            compact={false}
-          />
+        <td class='block-column'>
+          <OperationType type={op.type} compact={false} />
         </td>
       )}
-      <td > 
+      <td>
         <span title={op.time}>
           <TimeSynchronisedFormattedRelative
             // initialNow={parentRenderTimestamp}
@@ -103,7 +107,7 @@ const Operation = ({compact, op, opURLFn, parentRenderTimestamp, is_transaction}
           />
         </span>
       </td>
-      {is_transaction === true &&(
+      {is_transaction === true && (
         <td class>
           <JSONButton url={opURLFn(op.id)} />
         </td>
@@ -113,7 +117,7 @@ const Operation = ({compact, op, opURLFn, parentRenderTimestamp, is_transaction}
 }
 
 Operation.defaultProps = {
-  compact: true,
+  compact: true
 }
 
 Operation.propTypes = {
@@ -123,11 +127,11 @@ Operation.propTypes = {
     links: PropTypes.object.isRequired,
     sourceAccount: PropTypes.string.isRequired,
     type: PropTypes.oneOf(opTypes).isRequired,
-    time: PropTypes.string,
+    time: PropTypes.string
   }).isRequired,
   opURLFn: PropTypes.func.isRequired,
   parentRenderTimestamp: PropTypes.number,
-  is_transaction: PropTypes.bool,
+  is_transaction: PropTypes.bool
 }
 
-export {Operation as default, opTypes}
+export { Operation as default, opTypes }

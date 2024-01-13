@@ -1,71 +1,92 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-bootstrap/lib/Modal'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 const networkAddresses = [
   'https://horizon.stellar.org',
   'https://stellar-api.wancloud.io',
-  'https://api.chinastellar.com',
+  'https://api.chinastellar.com'
 ]
 
 /**
  * Button that reveals modal window where the Horizon server address can
  * be configured.
  */
-const CustomNetworkButton = ({handleClickFn}) =>
-  <button
-    className="is-inactive"
-    onClick={handleClickFn}>
-    <FormattedMessage id="network.set-custom" />
+const CustomNetworkButton = ({ handleClickFn }) => (
+  <button className='is-inactive' onClick={handleClickFn}>
+    <FormattedMessage id='network.set-custom' />
   </button>
+)
 
 CustomNetworkButton.propTypes = {
-  handleClickFn: PropTypes.func.isRequired,
+  handleClickFn: PropTypes.func.isRequired
 }
 
-const ResourceModalBody = ({networkAddress, inputValue, dropdownValue, networkType,
-                            handleSubmitFn, handleInputChangeFn, handleDropdownChangeFn}) => {
+const ResourceModalBody = ({
+  networkAddress,
+  inputValue,
+  dropdownValue,
+  networkType,
+  handleSubmitFn,
+  handleInputChangeFn,
+  handleDropdownChangeFn
+}) => {
   return (
     <form onSubmit={handleSubmitFn}>
       <div>
-        <h4><FormattedMessage id="network.current" /></h4>
-        <FormattedMessage id={'network.' + networkType} /><br />
-        <pre style={{marginTop: 5}}>{networkAddress}</pre><br />
+        <h4>
+          <FormattedMessage id='network.current' />
+        </h4>
+        <FormattedMessage id={'network.' + networkType} />
+        <br />
+        <pre style={{ marginTop: 5 }}>{networkAddress}</pre>
+        <br />
       </div>
 
       <div>
-        <h4><FormattedMessage id="network.change-here" /></h4>
-        <FormattedMessage id="network.choose" /><br />
-        <select id="networkDropdown" onChange={handleDropdownChangeFn} value={dropdownValue}>
-          <option></option>
-          {networkAddresses.map(address => address !== networkAddress && (
-            <option>{address}</option>
-            ))
-          }
-        </select><br/><br/>
+        <h4>
+          <FormattedMessage id='network.change-here' />
+        </h4>
+        <FormattedMessage id='network.choose' />
+        <br />
+        <select
+          id='networkDropdown'
+          onChange={handleDropdownChangeFn}
+          value={dropdownValue}
+        >
+          <option />
+          {networkAddresses.map(
+            (address) =>
+              address !== networkAddress && <option>{address}</option>
+          )}
+        </select>
+        <br />
+        <br />
 
-        <FormattedMessage id="network.or-custom" /><br />
+        <FormattedMessage id='network.or-custom' />
+        <br />
         <input
-          style={{marginTop: 5}}
-          type="text"
+          style={{ marginTop: 5 }}
+          type='text'
           onChange={handleInputChangeFn}
           value={inputValue}
-          /><br/>
+        />
+        <br />
 
-        <FormattedMessage id="save">
-          {msg => (<input type="submit" value={msg} />)}
+        <FormattedMessage id='save'>
+          {(msg) => <input type='submit' value={msg} />}
         </FormattedMessage>
       </div>
     </form>
   )
 }
 
-const ResourceModal = props => (
-  <Modal id="networkModal" show={props.show} onHide={props.handleCloseFn}>
+const ResourceModal = (props) => (
+  <Modal id='networkModal' show={props.show} onHide={props.handleCloseFn}>
     <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-lg" style={{color: '#dce2ec'}}>
-        <FormattedMessage id="network.address" />
+      <Modal.Title id='contained-modal-title-lg' style={{ color: '#dce2ec' }}>
+        <FormattedMessage id='network.address' />
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
@@ -80,11 +101,11 @@ ResourceModal.propTypes = {
   handleDropdownChangeFn: PropTypes.func.isRequired,
   dropdownValue: PropTypes.string.isRequired,
   inputValue: PropTypes.string.isRequired,
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool.isRequired
 }
 
 class ResourceModalContainer extends React.Component {
-  render() {
+  render () {
     return (
       <ResourceModal
         handleCloseFn={this.props.handleCloseFn}
@@ -103,11 +124,11 @@ class ResourceModalContainer extends React.Component {
 
 ResourceModalContainer.propTypes = {
   handleCloseFn: PropTypes.func.isRequired,
-  show: PropTypes.bool.isRequired,
+  show: PropTypes.bool.isRequired
 }
 
 class CustomNetworkButtonWithResourceModal extends React.Component {
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
 
     this.handleClick = this.handleClick.bind(this)
@@ -119,11 +140,11 @@ class CustomNetworkButtonWithResourceModal extends React.Component {
     this.state = {
       show: false,
       dropdownValue: '',
-      inputValue: this.props.networkAddress,
+      inputValue: this.props.networkAddress
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit (event) {
     event.preventDefault()
 
     const input = this.state.inputValue
@@ -134,27 +155,27 @@ class CustomNetworkButtonWithResourceModal extends React.Component {
     }
   }
 
-  handleDropdownChange(event) {
+  handleDropdownChange (event) {
     const newNetworkAddress = event.target.value
-    this.setState({dropdownValue: newNetworkAddress})
+    this.setState({ dropdownValue: newNetworkAddress })
     this.props.setNetworkAddress(newNetworkAddress)
   }
 
-  handleInputChange(event) {
+  handleInputChange (event) {
     const newNetworkAddress = event.target.value
-    this.setState({inputValue: newNetworkAddress})
+    this.setState({ inputValue: newNetworkAddress })
   }
 
-  handleClose() {
-    this.setState({show: false})
+  handleClose () {
+    this.setState({ show: false })
   }
 
-  handleClick(event) {
+  handleClick (event) {
     event.preventDefault()
-    this.setState({show: true})
+    this.setState({ show: true })
   }
 
-  render() {
+  render () {
     return (
       <span>
         <CustomNetworkButton
@@ -184,7 +205,7 @@ class CustomNetworkButtonWithResourceModal extends React.Component {
 CustomNetworkButtonWithResourceModal.propTypes = {
   setNetworkAddress: PropTypes.func.isRequired,
   networkAddress: PropTypes.string.isRequired,
-  networkType: PropTypes.string.isRequired,
+  networkType: PropTypes.string.isRequired
 }
 
 export default CustomNetworkButtonWithResourceModal

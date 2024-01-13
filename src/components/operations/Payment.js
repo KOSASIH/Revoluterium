@@ -1,5 +1,5 @@
 import React from 'react'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 import Asset from '../shared/Asset'
 import AccountLink from '../shared/AccountLink'
@@ -12,15 +12,15 @@ const Payment = ({
   assetType,
   children,
   to,
-  toMuxed,
+  toMuxed
 }) => (
   <span>
     <FormattedMessage
-      id="operation.payment"
+      id='operation.payment'
       values={{
         amount: <FormattedAmount amount={amount} />,
         asset: <Asset code={assetCode} issuer={assetIssuer} type={assetType} />,
-        recipient: <AccountLink account={toMuxed ? toMuxed : to} />,
+        recipient: <AccountLink account={toMuxed || to} />
       }}
     />
     {children}
@@ -33,7 +33,7 @@ Payment.propTypes = {
   assetIssuer: PropTypes.string,
   assetType: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
-  toMuxed: PropTypes.string,
+  toMuxed: PropTypes.string
 }
 
 export default Payment

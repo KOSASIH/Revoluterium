@@ -1,15 +1,16 @@
 import React from 'react'
 import Trust from './Trust'
-import {FormattedMessage} from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
-const ChangeTrust = props =>
+const ChangeTrust = (props) => (
   <Trust {...props}>
     <FormattedMessage
-      id="operation.trust.change"
+      id='operation.trust.change'
       values={{
-        limit: props.limit,
+        limit: props.limit
       }}
     />
   </Trust>
+)
 
 export default ChangeTrust

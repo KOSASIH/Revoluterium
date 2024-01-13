@@ -8,7 +8,7 @@ export default [
     assetType: 'credit_alphanum4',
     assetCode: 'HNY',
     assetIssuer: 'GCOLHJY3DMPDSZW7PNK4RWBQMCYE5Q67W7TT44SD46RKTVDEAUJZTNE6',
-    amount: '1000000000.0000000',
+    amount: '1000000000.0000000'
   },
   {
     id: '0000773746948313089-0000000003',
@@ -18,7 +18,7 @@ export default [
     createdAt: '2018-10-15T02:50:22Z',
     weight: 1,
     publicKey: 'GCOLHJY3DMPDSZW7PNK4RWBQMCYE5Q67W7TT44SD46RKTVDEAUJZTNE6',
-    key: '',
+    key: ''
   },
   {
     id: '0000773746948313089-0000000001',
@@ -26,6 +26,6 @@ export default [
     type: 'account_created',
     typeI: 0,
     createdAt: '2018-10-15T02:50:22Z',
-    startingBalance: '10000.0000000',
-  },
+    startingBalance: '10000.0000000'
+  }
 ]

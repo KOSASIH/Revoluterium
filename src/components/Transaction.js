@@ -3,42 +3,47 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Panel from 'react-bootstrap/lib/Panel'
 import Row from 'react-bootstrap/lib/Row'
 import Table from 'react-bootstrap/lib/Table'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   FormattedDate,
   FormattedMessage,
   FormattedTime,
-  injectIntl,
+  injectIntl
 } from 'react-intl'
 import PropTypes from 'prop-types'
-import {MemoHash, MemoReturn} from 'stellar-sdk'
+import { MemoHash, MemoReturn } from 'stellar-sdk'
 
-import {base64DecodeToHex, handleFetchDataFailure, setTitle} from '../lib/utils'
+import {
+  base64DecodeToHex,
+  handleFetchDataFailure,
+  setTitle
+} from '../lib/utils'
 import ClipboardCopy from './shared/ClipboardCopy'
-import {withServer} from './shared/HOCs'
+import { withServer } from './shared/HOCs'
 import OperationTable from './OperationTable'
-import {titleWithJSONButton} from './shared/TitleWithJSONButton'
+import { titleWithJSONButton } from './shared/TitleWithJSONButton'
 
 const memoTypeToLabel = {
   id: 'ID',
   hash: 'Hash',
   none: 'None',
   return: 'Return',
-  text: 'Text',
+  text: 'Text'
 }
 
 class Transaction extends React.Component {
   static defaultProps = {
-    operations: [],
+    operations: []
   }
 
-  render() {
-    const {id, urlFn, fee, ledger, memoType, memo, opCount, time} = this.props
+  render () {
+    const { id, urlFn, fee, ledger, memoType, memo, opCount, time } =
+      this.props
     if (!id) return null
-    
+
     setTitle(`Transaction ${id}`)
-    
-    const {formatMessage} = this.props.intl
+
+    const { formatMessage } = this.props.intl
 
     return (
       <Grid>
@@ -46,8 +51,8 @@ class Transaction extends React.Component {
           <Panel
             header={titleWithJSONButton(
               <span>
-                {formatMessage({id: 'transaction'})}{' '}
-                <span className="secondary-heading">{id}</span>
+                {formatMessage({ id: 'transaction' })}{' '}
+                <span className='secondary-heading'>{id}</span>
                 <ClipboardCopy text={id} />
               </span>,
               urlFn(id)
@@ -57,24 +62,24 @@ class Transaction extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <FormattedMessage id="time" />
+                    <FormattedMessage id='time' />
                   </td>
                   <td>
-                    <FormattedDate value={time} />&nbsp;
+                    <FormattedDate value={time} />
+                    &nbsp;
                     <FormattedTime value={time} />
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <FormattedMessage id="fee" />
+                    <FormattedMessage id='fee' />
                   </td>
                   {/* <td>{fee} stroops</td> */}
                   <td>{fee * 1e-7} Test-π</td>
-
                 </tr>
                 <tr>
                   <td>
-                    <FormattedMessage id="ledger" />
+                    <FormattedMessage id='ledger' />
                   </td>
                   <td>
                     <Link to={`/block/${ledger}`}>{ledger}</Link>
@@ -82,8 +87,8 @@ class Transaction extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                    <FormattedMessage id="memo" />{' '}
-                    <span className="secondary-heading">
+                    <FormattedMessage id='memo' />{' '}
+                    <span className='secondary-heading'>
                       ({memoTypeToLabel[memoType]})
                     </span>
                   </td>
@@ -99,12 +104,12 @@ class Transaction extends React.Component {
         </Row>
         <Row>
           <h3>
-            <a id="operations-table" aria-hidden="true" />
-            <FormattedMessage id="operations" />
+            <a id='operations-table' aria-hidden='true' />
+            <FormattedMessage id='operations' />
             {` (${opCount})`}
           </h3>
           <Grid>
-            <OperationTable limit={opCount} tx={id} is_transaction={true}/>
+            <OperationTable limit={opCount} tx={id} is_transaction />
           </Grid>
         </Row>
       </Grid>
@@ -120,31 +125,31 @@ Transaction.propTypes = {
   memoType: PropTypes.string,
   operations: PropTypes.array,
   time: PropTypes.string,
-  urlFn: PropTypes.func,
+  urlFn: PropTypes.func
 }
 
 const TransactionIntl = injectIntl(Transaction)
 
 class TransactionContainer extends React.Component {
   state = {
-    operations: [],
+    operations: []
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const id = this.props.match.params.id
     const server = this.props.server
     server
       .transactions()
       .transaction(id)
       .call()
-      .then(res => {
-        this.setState({tx: res})
+      .then((res) => {
+        this.setState({ tx: res })
         return null
       })
       .catch(handleFetchDataFailure(id))
   }
 
-  render() {
+  render () {
     if (!this.state.tx) return null
     const tx = this.state.tx
     return (

@@ -3,12 +3,12 @@ import Grid from 'react-bootstrap/lib/Grid'
 import Panel from 'react-bootstrap/lib/Panel'
 import Row from 'react-bootstrap/lib/Row'
 import Col from 'react-bootstrap/lib/Col'
-import {injectIntl} from 'react-intl'
+import { injectIntl } from 'react-intl'
 
 import LedgerTable from './LedgerTableContainer'
 import OperationTable from './OperationTable'
 import TransactionTable from './TransactionTableContainer'
-import {setTitle} from '../lib/utils'
+import { setTitle } from '../lib/utils'
 import Title from './shared/TitleWithLink'
 
 const panelHeader = (title, viewAllLabel, viewAllLink) => (
@@ -20,28 +20,28 @@ const panelHeader = (title, viewAllLabel, viewAllLink) => (
 )
 
 class Home extends React.Component {
-  render() {
+  render () {
     setTitle('Home')
-    const {formatMessage} = this.props.intl
-    const viewAllStr = formatMessage({id: 'view.all'})
+    const { formatMessage } = this.props.intl
+    const viewAllStr = formatMessage({ id: 'view.all' })
     return (
-      <Grid id="home">
+      <Grid id='home'>
         <Row>
           <Col md={8}>
             <Panel
               header={panelHeader(
-                formatMessage({id: 'latest.operations'}),
+                formatMessage({ id: 'latest.operations' }),
                 viewAllStr,
                 '/operations'
               )}
             >
-              <OperationTable compact fill limit={25} noCSVExport={true} />
+              <OperationTable compact fill limit={25} noCSVExport />
             </Panel>
           </Col>
           <Col md={4}>
             <Panel
               header={panelHeader(
-                formatMessage({id: 'latest.txs'}),
+                formatMessage({ id: 'latest.txs' }),
                 viewAllStr,
                 '/txs'
               )}
@@ -52,12 +52,12 @@ class Home extends React.Component {
                 limit={10}
                 showLedger
                 showSource={false}
-                noCSVExport={true}
+                noCSVExport
               />
             </Panel>
             <Panel
               header={panelHeader(
-                formatMessage({id: 'latest.ledgers'}),
+                formatMessage({ id: 'latest.ledgers' }),
                 viewAllStr,
                 '/blocks'
               )}

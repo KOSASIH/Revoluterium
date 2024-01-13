@@ -11,16 +11,16 @@ import Row from 'react-bootstrap/lib/Row'
 // const BANNER_JSON =
 //   'https://raw.githubusercontent.com/chatch/stellarexplorer/master/banner.json'
 
-const InfoBanner = ({message}) => (
-  <Grid style={{marginBottom: 0}}>
+const InfoBanner = ({ message }) => (
+  <Grid style={{ marginBottom: 0 }}>
     <Row>
-      <Col style={{marginTop: 0, marginBottom: 0, paddingLeft: 0}}>
-        <div class="dark" data-ea-publisher="steexp" data-ea-type="text"></div>
-  {/*
-        <div class="dark" data-ea-publisher="steexp" data-ea-type="image"></div> 
+      <Col style={{ marginTop: 0, marginBottom: 0, paddingLeft: 0 }}>
+        <div class='dark' data-ea-publisher='steexp' data-ea-type='text' />
+        {/*
+        <div class="dark" data-ea-publisher="steexp" data-ea-type="image"></div>
    */}
 
-  {/* <span id="banner-message" dangerouslySetInnerHTML={{__html: message}} /> */}
+        {/* <span id="banner-message" dangerouslySetInnerHTML={{__html: message}} /> */}
       </Col>
     </Row>
   </Grid>

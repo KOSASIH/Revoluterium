@@ -6,35 +6,35 @@ import Tooltip from 'react-bootstrap/lib/Tooltip'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
 const CopyIcon = (
-  <Glyphicon glyph="copy" style={{fontSize: 'small', marginLeft: 5}} />
+  <Glyphicon glyph='copy' style={{ fontSize: 'small', marginLeft: 5 }} />
 )
-const TooltipCopy = <Tooltip id="tooltip-copy">Copy to Clipboard</Tooltip>
+const TooltipCopy = <Tooltip id='tooltip-copy'>Copy to Clipboard</Tooltip>
 const TooltipCopied = (
-  <Tooltip id="tooltip-copied" className="in">
+  <Tooltip id='tooltip-copied' className='in'>
     Copied!
   </Tooltip>
 )
 
 class ClipboardCopy extends React.Component {
   static defaultProps = {
-    text: '',
+    text: ''
   }
 
   state = {
-    copied: false,
+    copied: false
   }
 
-  constructor(props, context) {
+  constructor (props, context) {
     super(props, context)
     this.handleCopy = this.handleCopy.bind(this)
   }
 
-  handleCopy() {
-    this.setState({copied: true})
-    setTimeout(() => this.setState({copied: false}), 10000)
+  handleCopy () {
+    this.setState({ copied: true })
+    setTimeout(() => this.setState({ copied: false }), 10000)
   }
 
-  render() {
+  render () {
     return (
       <OverlayTrigger
         delayShow={300}
@@ -50,7 +50,7 @@ class ClipboardCopy extends React.Component {
 }
 
 ClipboardCopy.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.string
 }
 
 export default ClipboardCopy

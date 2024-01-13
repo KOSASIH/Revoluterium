@@ -5,9 +5,9 @@ import Col from 'react-bootstrap/lib/Col'
 // import LumensRates from '../shared/LumensRates'
 
 class Footer extends React.PureComponent {
-  render() {
+  render () {
     return (
-      <Grid id="footer">
+      <Grid id='footer'>
         <Row>
           <Col md={3}>
             {
@@ -15,10 +15,10 @@ class Footer extends React.PureComponent {
             }
           </Col>
           <Col mdOffset={7} md={2}>
-            <a href="https://github.com/pi-apps/pi-explorer">
+            <a href='https://github.com/pi-apps/pi-explorer'>
               <img
                 src={`${process.env.PUBLIC_URL}/img/gh.svg`}
-                alt="github"
+                alt='github'
                 height={20}
                 width={20}
               />
