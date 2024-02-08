@@ -3,7 +3,7 @@
 [![Jekyll site CI](https://github.com/KOSASIH/pi-explorer/actions/workflows/jekyll-docker.yml/badge.svg)](https://github.com/KOSASIH/pi-explorer/actions/workflows/jekyll-docker.yml)
 [![Mark stale issues and pull requests](https://github.com/KOSASIH/pi-explorer/actions/workflows/stale.yml/badge.svg)](https://github.com/KOSASIH/pi-explorer/actions/workflows/stale.yml)
 
-# Pi Explorer
+# Revoluterium
 
 A block explorer for the [Pi Blockchain](https://minepi.com) based on Chris Hatch' repository.
 
