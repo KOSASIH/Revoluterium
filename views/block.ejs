@@ -1,0 +1,19 @@
+<h1>Block <%= block.hash %></h1>
+
+<ul>
+  <li>Block Number: <%= block.number %></li>
+  <li>Block Hash: <%= block.hash %></li>
+  <li>Previous Block Hash: <%= block.previous_block_hash %></li>
+  <li>Transactions: <%= block.transactions.length %></li>
+</ul>
+
+<h2>Transactions</h2>
+
+<ul>
+  <% block.transactions.forEach(transaction => { %>
+    <li>
+      <%= transaction.hash %>
+      (<%= transaction.type %>)
+    </li>
+  <% }); %>
+</ul>
