@@ -1,0 +1,8 @@
+{
+  "blockExplorer": "Block Explorer",
+  "block": "Block",
+  "transaction": "Transaction",
+  "from": "From",
+  "to": "To",
+  "amount": "Amount"
+}
